@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>두바이 가족여행 일정 & 예약 체크리스트 (2026.02.21~02.27)</title>
+  <style>
+    :root {
+      --bg: #f7f3eb;
+      --card: #fffdf8;
+      --ink: #1f2a37;
+      --muted: #5b6673;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --line: #e8dfd2;
+      --ok: #166534;
+      --warn: #92400e;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, #f6e8d4 0%, transparent 35%),
+        radial-gradient(circle at 90% 20%, #d8efe9 0%, transparent 40%),
+        var(--bg);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #fef7eb, #edf7f5);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 6px 20px rgba(20, 32, 44, 0.06);
+      animation: rise 500ms ease;
+    }
+
+    .hero h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.4rem, 3.2vw, 2rem);
+      line-height: 1.25;
+    }
+
+    .hero p {
+      margin: 8px 0;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+
+    .grid {
+      margin-top: 18px;
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .card {
+      grid-column: span 12;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 14px rgba(22, 29, 37, 0.04);
+      animation: rise 550ms ease;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .note {
+      background: #fef8ec;
+      border-left: 4px solid var(--accent-2);
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #4b5563;
+      font-size: 0.95rem;
+    }
+
+    .ok { color: var(--ok); font-weight: 700; }
+    .warn { color: var(--warn); font-weight: 700; }
+
+    /* Mobile schedule cards */
+    .schedule-cards {
+      display: grid;
+      gap: 10px;
+    }
+
+    .day {
+      background: #fff;
+      border: 1px solid #e8e1d6;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .day summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 12px 12px;
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .day summary::-webkit-details-marker { display: none; }
+
+    .day .date {
+      font-weight: 800;
+      min-width: 80px;
+      color: #0f172a;
+    }
+
+    .day .title {
+      color: #334155;
+      font-weight: 650;
+      flex: 1;
+    }
+
+    .day .meta {
+      padding: 0 12px 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      border-top: 1px solid #efe7db;
+    }
+
+    .day .meta p { margin: 10px 0 0; }
+
+    /* Checklist progress */
+    .progress {
+      display: grid;
+      gap: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      color: #334155;
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: #efe7db;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .progress-bar > div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #22c55e);
+      border-radius: 999px;
+      transition: width 220ms ease;
+    }
+
+    .progress-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #334155;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .btn:hover { border-color: #d7cbb8; }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 0;
+      min-width: 640px;
+    }
+
+    thead th {
+      background: #f4efe5;
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    tbody td {
+      padding: 10px;
+      border-bottom: 1px solid #efe7db;
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td { border-bottom: none; }
+
+    ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    li { margin: 6px 0; }
+
+    .checklist label {
+      display: block;
+      margin: 7px 0;
+      padding: 8px 10px;
+      border: 1px solid #e8e1d6;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .checklist input { margin-right: 8px; }
+
+    .sources a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .sources a:hover { text-decoration: underline; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(7px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      .wrap { padding: 18px 12px 40px; }
+      .hero { padding: 18px; border-radius: 16px; }
+      .hero p { font-size: 0.95rem; }
+      .pill { font-size: 0.85rem; padding: 7px 10px; }
+
+      .card { padding: 14px; border-radius: 14px; }
+      .card h2 { font-size: 1.05rem; }
+
+      /* Mobile-first: show cards, hide table */
+      .schedule-table-wrap { display: none; }
+
+      .checklist label {
+        padding: 10px 12px;
+        margin: 9px 0;
+      }
+      .checklist input { transform: scale(1.15); }
+    }
+
+    @media (min-width: 840px) {
+      .schedule { grid-column: span 8; }
+      .quick { grid-column: span 4; }
+      .abu { grid-column: span 6; }
+      .desert { grid-column: span 6; }
+      .check { grid-column: span 7; }
+      .source-card { grid-column: span 5; }
+
+      /* Desktop-first: show table, hide cards */
+      .schedule-cards { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>두바이 가족여행 일정안 + 예약 체크리스트</h1>
+      <p><strong>기간:</strong> 2026.02.21(토) ~ 02.27(금) / <strong>인원:</strong> 5명 (부부 + 초등 2명 + 장모님)</p>
+      <p><strong>숙소:</strong> 25hours Hotel One Central (DWTC/월드트레이드센터역 인근)</p>
+      <div class="pill-row">
+        <span class="pill">핵심 조건: 2/24~2/26 본인 회사 행사(현지 기준)</span>
+        <span class="pill">가족 단독 이동 가능한 일정 중심</span>
+        <span class="pill">장거리 이동은 1회/일 원칙</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card schedule">
+        <h2>1) 일정 요약 (호텔 기준 동선)</h2>
+
+        <!-- Mobile: cards/accordion -->
+        <div class="schedule-cards" aria-label="일정(모바일 카드)">
+          <details class="day" open>
+            <summary><span class="date">2/21(토)</span><span class="title">도착 · 체크인 · 가벼운 산책</span></summary>
+            <div class="meta">
+              <p><strong>추천:</strong> 도착, 체크인, 호텔/두바이몰 주변 가벼운 산책</p>
+              <p><strong>비고:</strong> 이동 피로 관리</p>
+            </div>
+          </details>
+
+          <details class="day" open>
+            <summary><span class="date">2/22(일)</span><span class="title">아부다비 당일치기</span></summary>
+            <div class="meta">
+              <p><strong>추천:</strong> <strong>아부다비</strong> (셰이크 자이드 모스크 + 카스르 알 와탄)</p>
+              <p><strong>비고:</strong> 본인 동행 가능한 핵심 장거리 일정</p>
+            </div>
+          </details>
+
+          <details class="day">
+            <summary><span class="date">2/23(월)</span><span class="title">사막투어(오후~야간)</span></summary>
+            <div class="meta">
+              <p><strong>추천:</strong> 가족 동행: <strong>사막투어(오후~야간)</strong></p>
+              <p><strong>비고:</strong> 월요일은 행사 일정 없음</p>
+            </div>
+          </details>
+
+          <details class="day">
+            <summary><span class="date">2/24(화)</span><span class="title">두바이몰 · 실내 휴식</span></summary>
+            <div class="meta">
+              <p><strong>추천:</strong> 가족만: 두바이몰(키자니아/아쿠아리움 중 택1) + 실내 휴식</p>
+              <p><strong>비고:</strong> 본인 행사 시작</p>
+            </div>
+          </details>
+
+          <details class="day">
+            <summary><span class="date">2/25(수)</span><span class="title">알시프/크릭 산책 · 저강도 회복</span></summary>
+            <div class="meta">
+              <p><strong>추천:</strong> 알시프/크릭 산책 + 카페 + 일찍 귀환</p>
+              <p><strong>비고:</strong> 저강도 회복일</p>
+            </div>
+          </details>
+
+          <details class="day">
+            <summary><span class="date">2/26(목)</span><span class="title">마지막 일정 · (밤) 공항 이동</span></summary>
+            <div class="meta">
+              <p><strong>추천:</strong> 낮에는 가벼운 일정/휴식 → 저녁 정리 → (밤) DXB 이동</p>
+              <p><strong>비고:</strong> DXB T3 03:30 출발 기준, <strong>00:30 공항 도착</strong> 목표(호텔 23:30~00:00 출발 권장)</p>
+            </div>
+          </details>
+
+          <details class="day">
+            <summary><span class="date">2/27(금)</span><span class="title">귀국편 탑승(DXB→ICN)</span></summary>
+            <div class="meta">
+              <p><strong>추천:</strong> 03:30 DXB 출발 → 16:50 ICN 도착</p>
+              <p><strong>비고:</strong> 새벽 출발이라 체크인/보안검색 대기시간 여유 있게</p>
+            </div>
+          </details>
+        </div>
+
+        <!-- Desktop/tablet: table -->
+        <div class="schedule-table-wrap" aria-label="일정(표)">
+          <div class="table-scroll">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>날짜</th>
+                  <th>추천 일정</th>
+                  <th>비고</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2/21(토)</td>
+                  <td>도착, 체크인, 호텔/두바이몰 주변 가벼운 산책</td>
+                  <td>이동 피로 관리</td>
+                </tr>
+                <tr>
+                  <td>2/22(일)</td>
+                  <td><strong>아부다비 당일치기</strong> (셰이크 자이드 모스크 + 카스르 알 와탄)</td>
+                  <td>본인 동행 가능한 핵심 장거리 일정</td>
+                </tr>
+                <tr>
+                  <td>2/23(월)</td>
+                  <td>가족 동행: <strong>사막투어(오후~야간)</strong></td>
+                  <td>월요일은 행사 일정 없음</td>
+                </tr>
+                <tr>
+                  <td>2/24(화)</td>
+                  <td>가족만: 두바이몰(키자니아/아쿠아리움 중 택1) + 실내 휴식</td>
+                  <td>본인 행사 시작</td>
+                </tr>
+                <tr>
+                  <td>2/25(수)</td>
+                  <td>알시프/크릭 산책 + 카페 + 일찍 귀환</td>
+                  <td>저강도 회복일</td>
+                </tr>
+                <tr>
+                  <td>2/26(목)</td>
+                  <td>마지막 일정/휴식 + (밤) 공항 이동</td>
+                  <td>DXB T3 03:30 출발 기준: 00:30 공항 도착 목표(호텔 23:30~00:00 출발 권장)</td>
+                </tr>
+                <tr>
+                  <td>2/27(금)</td>
+                  <td>귀국편 탑승(DXB→ICN)</td>
+                  <td>03:30 DXB 출발 → 16:50 ICN 도착</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="card quick">
+        <h2>2) 가능 여부 결론</h2>
+        <p class="ok">아부다비 당일치기: 가능</p>
+        <ul>
+          <li>2/22(일) 배치 시 가족 전원 동행에 가장 안정적</li>
+          <li>왕복 이동 포함 하루 10~12시간으로 계획</li>
+        </ul>
+        <p class="ok">사막투어: 가능</p>
+        <ul>
+          <li>2/23(월) 본인 동행으로 진행 가능</li>
+          <li>호텔 픽업/드롭 포함 상품 우선</li>
+        </ul>
+        <p class="note"><strong>권장:</strong> 초등 자녀 + 장모님 동행이므로 사막투어는 반드시 <strong>Soft Dune / No Dune</strong> 옵션 확인</p>
+      </article>
+
+      <article class="card abu">
+        <h2>3) 아부다비 당일치기 체크포인트</h2>
+        <ul>
+          <li><strong>셰이크 자이드 모스크:</strong> 금요일 12:00~15:00 메인 기도홀 방문 제한</li>
+          <li><strong>복장 규정:</strong> 어깨/무릎 가리는 복장 준비</li>
+          <li><strong>카스르 알 와탄:</strong> 온라인 티켓 예약, Visitor Centre 진입 동선 확인</li>
+          <li>이동은 전용차량 1대(카시트 필요 시 사전요청) 또는 대형 택시/밴 추천</li>
+        </ul>
+      </article>
+
+      <article class="card desert">
+        <h2>4) 사막투어 선택 가이드</h2>
+        <ul>
+          <li><strong>가족형 추천 타입:</strong> Private Desert Safari + Hotel Pickup</li>
+          <li><strong>시간대:</strong> 오후 출발(약 6~7시간) 또는 오전형(3.5~4시간)</li>
+          <li><strong>반드시 확인:</strong> 연령/신장 제한, 듄배싱 강도, 멀미 민감자 좌석</li>
+          <li><strong>포함 여부:</strong> 저녁식사, 샌드보드, 낙타체험, 공연, 화장실 접근성</li>
+        </ul>
+      </article>
+
+      <article class="card check checklist">
+        <h2>5) 예약 체크리스트 (복붙용)</h2>
+
+        <div class="progress" role="group" aria-label="체크리스트 진행률">
+          <div class="progress-head">
+            <strong>진행률</strong>
+            <span id="progressText">0/0 (0%)</span>
+          </div>
+          <div class="progress-bar" aria-hidden="true"><div id="progressFill"></div></div>
+          <div class="progress-actions">
+            <button class="btn" id="resetChecks" type="button">전체 체크 해제</button>
+          </div>
+        </div>
+
+        <div id="checklistItems">
+          <label><input type="checkbox" /> 항공편: 여권 영문명/생년월일 5인 모두 재확인</label>
+          <label><input type="checkbox" /> 호텔: 25hours 객실 타입(커넥팅/엑스트라베드 가능 여부) 확정</label>
+          <label><input type="checkbox" /> 공항 이동: 도착/출국일 대형 차량(5인+캐리어) 예약</label>
+          <label><input type="checkbox" /> 2/22 아부다비 차량: 10~12시간 전용차량(카시트 필요 시 요청)</label>
+          <label><input type="checkbox" /> 셰이크 자이드 모스크 복장 규정 준비(어깨/무릎 가림)</label>
+          <label><input type="checkbox" /> 카스르 알 와탄 온라인 티켓 예매</label>
+          <label><input type="checkbox" /> 2/23(월) 사막투어 예약(Private + Soft/No Dune)</label>
+          <label><input type="checkbox" /> 사막투어 업체에 아동 연령/장모님 탑승 편의 전달</label>
+          <label><input type="checkbox" /> 여행자 보험: 의료/수하물/일정변경 보장 확인</label>
+          <label><input type="checkbox" /> 행사 기간(2/24~2/26) 가족 비상연락/합류 지점 사전 공유 (2/26 밤 공항 이동 포함)</label>
+          <label><input type="checkbox" /> eSIM/로밍, 카드 해외결제, AED 소액 현금 준비</label>
+        </div>
+      </article>
+
+      <article class="card source-card sources">
+        <h2>6) 확인한 공식 정보 링크</h2>
+        <ul>
+          <li><a href="https://25hours-hotels.com/dubai/one-central/" target="_blank" rel="noreferrer">25hours Hotel One Central (위치/교통)</a></li>
+          <li><a href="https://www.25hours-hotels.com/dubai/one-central/neighbourhood/" target="_blank" rel="noreferrer">25hours Neighbourhood (DWTC/메트로 접근)</a></li>
+          <li><a href="https://visitabudhabi.ae/en/what-to-see/national-attractions/sheikh-zayed-grand-mosque" target="_blank" rel="noreferrer">Sheikh Zayed Grand Mosque 방문 안내</a></li>
+          <li><a href="https://visitabudhabi.ae/en/things-to-do/culture/landmarks-and-architecture/qasr-al-watan" target="_blank" rel="noreferrer">Qasr Al Watan 공식 안내</a></li>
+          <li><a href="https://experiences.visitdubai.com/productDetail/47481" target="_blank" rel="noreferrer">Visit Dubai Desert Experience 예시 1</a></li>
+          <li><a href="https://experiences.visitdubai.com/productDetail/17081" target="_blank" rel="noreferrer">Visit Dubai Desert Experience 예시 2</a></li>
+        </ul>
+        <p class="note"><strong>메모:</strong> 운영시간/입장정책은 시즌, 공휴일, 라마단 기간에 변동될 수 있어 최종 예약 직전 1회 재확인 권장</p>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = 'dubai_family_plan_checklist_v1';
+      const root = document.getElementById('checklistItems');
+      if (!root) return;
+
+      const checks = Array.from(root.querySelectorAll('input[type="checkbox"]'));
+      const progressText = document.getElementById('progressText');
+      const progressFill = document.getElementById('progressFill');
+      const resetBtn = document.getElementById('resetChecks');
+
+      // Assign stable-ish ids based on label text
+      checks.forEach((cb, idx) => {
+        const label = cb.closest('label');
+        const text = (label ? label.textContent : `item-${idx}`).trim();
+        cb.dataset.key = `c_${idx}_${text}`.slice(0, 80);
+      });
+
+      const load = () => {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+          checks.forEach(cb => {
+            const k = cb.dataset.key;
+            if (typeof saved[k] === 'boolean') cb.checked = saved[k];
+          });
+        } catch (_) {}
+      };
+
+      const save = () => {
+        const payload = {};
+        checks.forEach(cb => (payload[cb.dataset.key] = !!cb.checked));
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); } catch (_) {}
+      };
+
+      const render = () => {
+        const total = checks.length;
+        const done = checks.filter(cb => cb.checked).length;
+        const pct = total ? Math.round((done / total) * 100) : 0;
+        if (progressText) progressText.textContent = `${done}/${total} (${pct}%)`;
+        if (progressFill) progressFill.style.width = `${pct}%`;
+      };
+
+      root.addEventListener('change', (e) => {
+        if (!(e.target instanceof HTMLInputElement)) return;
+        if (e.target.type !== 'checkbox') return;
+        save();
+        render();
+      });
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          checks.forEach(cb => (cb.checked = false));
+          save();
+          render();
+        });
+      }
+
+      load();
+      render();
+    })();
+  </script>
+</body>
+</html>
