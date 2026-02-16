@@ -256,7 +256,10 @@
     li { margin: 6px 0; }
 
     .checklist label {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       margin: 7px 0;
       padding: 8px 10px;
       border: 1px solid #e8e1d6;
@@ -264,7 +267,11 @@
       background: #fff;
     }
 
-    .checklist input { margin-right: 8px; }
+    .checklist input {
+      margin: 0 0 0 10px;
+      order: 2;
+      flex-shrink: 0;
+    }
 
     .sources a {
       color: var(--accent);
@@ -294,7 +301,7 @@
         padding: 10px 12px;
         margin: 9px 0;
       }
-      .checklist input { transform: scale(1.15); }
+      .checklist input { transform: scale(1.15); margin-left: 12px; }
     }
 
     @media (min-width: 840px) {
@@ -324,6 +331,42 @@
     </section>
 
     <section class="grid">
+<article class="card check checklist">
+        <h2>0) 사전 체크리스트 (이번주 목요일 우선 확인)</h2>
+
+        <div class="progress" role="group" aria-label="체크리스트 진행률">
+          <div class="progress-head">
+            <strong>진행률</strong>
+            <span id="progressText">0/0 (0%)</span>
+          </div>
+          <div class="progress-bar" aria-hidden="true"><div id="progressFill"></div></div>
+          <div class="progress-actions">
+            <button class="btn" id="resetChecks" type="button">전체 체크 해제</button>
+          </div>
+        </div>
+
+        <div id="checklistItems">
+          <label><input type="checkbox" /> 항공편: 여권 영문명/생년월일 5인 모두 재확인</label>
+          <label><input type="checkbox" /> [이번주 목요일] 국제운전면허증(IDP) 최종 발급/수령 완료 확인</label>
+          <label><input type="checkbox" /> [이번주 목요일] 호텔 얼리체크인 가능 여부 최종 확인(비용/보장 조건/도착시간 공유)</label>
+          <label><input type="checkbox" /> 호텔: 25hours 객실 타입(커넥팅/엑스트라베드 가능 여부) 확정</label>
+          <label><input type="checkbox" /> 호텔 얼리체크인 추가 가능 여부 확인(가능 시 비용/보장 조건 포함)</label>
+          <label><input type="checkbox" /> 공항 이동: 도착/출국일 대형 차량(5인+캐리어) 예약</label>
+          <label><input type="checkbox" /> 2/22 아부다비 차량: 10~12시간 전용차량(카시트 필요 시 요청)</label>
+          <label><input type="checkbox" /> 아부다비 당일치기 이동시간 확인(호텔↔아부다비 편도 1시간 40분+ 예상, 왕복 일정 여유 확보)</label>
+          <label><input type="checkbox" /> 렌터카 운전 시 국제운전면허증(IDP) 발급 필요 여부 확인 및 사전 발급</label>
+          <label><input type="checkbox" /> 셰이크 자이드 모스크 복장 규정 준비(어깨/무릎 가림)</label>
+          <label><input type="checkbox" /> 카스르 알 와탄 온라인 티켓 예매</label>
+          <label><input type="checkbox" /> 아부다비 자연사 박물관 운영 여부/입장 가능 시간 확인(가능 시 예매)</label>
+          <label><input type="checkbox" /> 2/23(월) 사막투어 예약(Private + Soft/No Dune)</label>
+          <label><input type="checkbox" /> 마이리얼트립 시티투어 상품 확인/예약 (가족형 코스·픽업 여부 확인)</label>
+          <label><input type="checkbox" /> 사막투어 업체에 아동 연령/장모님 탑승 편의 전달</label>
+          <label><input type="checkbox" /> 여행자 보험: 의료/수하물/일정변경 보장 확인</label>
+          <label><input type="checkbox" /> 행사 기간(2/24~2/26) 가족 비상연락/합류 지점 사전 공유 (2/26 밤 공항 이동 포함)</label>
+          <label><input type="checkbox" /> eSIM/로밍, 카드 해외결제, AED 소액 현금 준비</label>
+        </div>
+      </article>
+
       <article class="card schedule">
         <h2>1) 일정 요약 (호텔 기준 동선)</h2>
 
@@ -475,42 +518,10 @@
         </ul>
       </article>
 
-      <article class="card check checklist">
-        <h2>5) 예약 체크리스트 (복붙용)</h2>
-
-        <div class="progress" role="group" aria-label="체크리스트 진행률">
-          <div class="progress-head">
-            <strong>진행률</strong>
-            <span id="progressText">0/0 (0%)</span>
-          </div>
-          <div class="progress-bar" aria-hidden="true"><div id="progressFill"></div></div>
-          <div class="progress-actions">
-            <button class="btn" id="resetChecks" type="button">전체 체크 해제</button>
-          </div>
-        </div>
-
-        <div id="checklistItems">
-          <label><input type="checkbox" /> 항공편: 여권 영문명/생년월일 5인 모두 재확인</label>
-          <label><input type="checkbox" /> 호텔: 25hours 객실 타입(커넥팅/엑스트라베드 가능 여부) 확정</label>
-          <label><input type="checkbox" /> 호텔 얼리체크인 추가 가능 여부 확인(가능 시 비용/보장 조건 포함)</label>
-          <label><input type="checkbox" /> 공항 이동: 도착/출국일 대형 차량(5인+캐리어) 예약</label>
-          <label><input type="checkbox" /> 2/22 아부다비 차량: 10~12시간 전용차량(카시트 필요 시 요청)</label>
-          <label><input type="checkbox" /> 아부다비 당일치기 이동시간 확인(호텔↔아부다비 편도 1시간 40분+ 예상, 왕복 일정 여유 확보)</label>
-          <label><input type="checkbox" /> 렌터카 운전 시 국제운전면허증(IDP) 발급 필요 여부 확인 및 사전 발급</label>
-          <label><input type="checkbox" /> 셰이크 자이드 모스크 복장 규정 준비(어깨/무릎 가림)</label>
-          <label><input type="checkbox" /> 카스르 알 와탄 온라인 티켓 예매</label>
-          <label><input type="checkbox" /> 아부다비 자연사 박물관 운영 여부/입장 가능 시간 확인(가능 시 예매)</label>
-          <label><input type="checkbox" /> 2/23(월) 사막투어 예약(Private + Soft/No Dune)</label>
-          <label><input type="checkbox" /> 마이리얼트립 시티투어 상품 확인/예약 (가족형 코스·픽업 여부 확인)</label>
-          <label><input type="checkbox" /> 사막투어 업체에 아동 연령/장모님 탑승 편의 전달</label>
-          <label><input type="checkbox" /> 여행자 보험: 의료/수하물/일정변경 보장 확인</label>
-          <label><input type="checkbox" /> 행사 기간(2/24~2/26) 가족 비상연락/합류 지점 사전 공유 (2/26 밤 공항 이동 포함)</label>
-          <label><input type="checkbox" /> eSIM/로밍, 카드 해외결제, AED 소액 현금 준비</label>
-        </div>
-      </article>
+      
 
       <article class="card source-card sources">
-        <h2>6) 확인한 공식 정보 링크</h2>
+        <h2>5) 확인한 공식 정보 링크</h2>
         <ul>
           <li><a href="https://25hours-hotels.com/dubai/one-central/" target="_blank" rel="noreferrer">25hours Hotel One Central (위치/교통)</a></li>
           <li><a href="https://www.25hours-hotels.com/dubai/one-central/neighbourhood/" target="_blank" rel="noreferrer">25hours Neighbourhood (DWTC/메트로 접근)</a></li>
