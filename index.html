@@ -255,21 +255,34 @@
 
     li { margin: 6px 0; }
 
+    .check-group {
+      margin: 12px 0 14px;
+      padding: 10px;
+      border: 1px solid #eee3d3;
+      background: #fffcf6;
+      border-radius: 12px;
+    }
+
+    .check-group h3 {
+      margin: 0 0 8px;
+      font-size: 0.96rem;
+      color: #374151;
+    }
+
     .checklist label {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 10px;
       margin: 7px 0;
-      padding: 8px 10px;
+      padding: 9px 10px;
       border: 1px solid #e8e1d6;
-      border-radius: 8px;
+      border-radius: 10px;
       background: #fff;
+      line-height: 1.45;
     }
 
     .checklist input {
-      margin: 0 0 0 10px;
-      order: 2;
+      margin-top: 2px;
       flex-shrink: 0;
     }
 
@@ -301,7 +314,7 @@
         padding: 10px 12px;
         margin: 9px 0;
       }
-      .checklist input { transform: scale(1.15); margin-left: 12px; }
+      .checklist input { transform: scale(1.15); margin-left: 0; }
     }
 
     @media (min-width: 840px) {
@@ -346,29 +359,35 @@
         </div>
 
         <div id="checklistItems">
-          <label><input type="checkbox" /> 항공편: 여권 영문명/생년월일 5인 모두 재확인</label>
-          <label><input type="checkbox" /> [이번주 목요일] 국제운전면허증(IDP) 최종 발급/수령 완료 확인</label>
-          <label><input type="checkbox" /> [확인완료] 호텔 얼리체크인 불가(호텔 회신 반영) → 2/21 오전 대기동선(짐보관/조식/수영장)으로 운영</label>
-          <label><input type="checkbox" /> 2/21 공항 픽업 동행 여부 최종 확인(변경 시 대체 이동수단 즉시 공유)</label>
-          <label><input type="checkbox" /> 엑스트라베드 수량/설치 시간/1박 추가요금(세금 포함) 서면 회신 받기</label>
-          <label><input type="checkbox" /> 호텔: 25hours 객실 타입 확정 + 엑스트라베드 가능 여부/추가요금 최종 확인</label>
-          <label><input type="checkbox" /> 호텔 얼리체크인 추가 가능 여부 확인(가능 시 비용/보장 조건 포함)</label>
-          <label><input type="checkbox" /> 2/21 얼리체크인 불가 대비: 컨시어지 짐보관 + 조식 + 수영장 이용 가능 여부 사전 확인</label>
-          <label><input type="checkbox" /> 공항 이동: 도착/출국일 대형 차량(5인+캐리어) 예약</label>
-          <label><input type="checkbox" /> 2/23 아부다비 이동수단 확정(렌트 우선, 대안: 전용차량 10~12시간)</label>
-          <label><input type="checkbox" /> 아부다비 당일치기 이동시간 확인(호텔↔아부다비 편도 1시간 40분+ 예상, 왕복 일정 여유 확보)</label>
-          <label><input type="checkbox" /> 렌터카 운전 시 국제운전면허증(IDP) 발급 필요 여부 확인 및 사전 발급</label>
-          <label><input type="checkbox" /> 알시프/크릭 일정에서 모스크용 예쁜 의상 구매(어깨/무릎 가림 기준)</label>
-          <label><input type="checkbox" /> 셰이크 자이드 모스크 복장 규정 준비(어깨/무릎 가림)</label>
-          <label><input type="checkbox" /> 아부다비 자연사 박물관 운영 여부/입장 가능 시간 확인(가능 시 온라인 예매)</label>
-          <label><input type="checkbox" /> 그랜드 모스크 무료 예약 QR 준비(모바일+종이 출력본 모두 지참)</label>
-          <label><input type="checkbox" /> 2/22(일) 사막투어 예약(14:00 전후 출발, Private + No Dune)</label>
-          <label><input type="checkbox" /> 사막투어 문의 채널 확보(리얼트립 또는 WhatsApp +971 55 703 4563)</label>
-          <label><input type="checkbox" /> 기타 두바이 시티투어: 한인 단체투어(마이리얼트립) 확인(도보 동선 최소화)</label>
-          <label><input type="checkbox" /> 사막투어 업체에 아동 연령/장모님 탑승 편의 전달</label>
-          <label><input type="checkbox" /> 여행자 보험: 의료/수하물/일정변경 보장 확인</label>
-          <label><input type="checkbox" /> 행사 기간(2/24~2/26) 가족 비상연락/합류 지점 사전 공유 (2/26 밤 공항 이동 포함)</label>
-          <label><input type="checkbox" /> eSIM/로밍, 카드 해외결제, AED 소액 현금 준비</label>
+          <div class="check-group">
+            <h3>필수 확정 (교통/숙소)</h3>
+            <label><input type="checkbox" /> 항공편: 여권 영문명/생년월일 5인 모두 재확인</label>
+            <label><input type="checkbox" /> 공항 이동: 도착/출국일 대형 차량(5인+캐리어) 예약</label>
+            <label><input type="checkbox" /> 2/21 공항 픽업 동행 여부 최종 확인(변경 시 대체 이동수단 즉시 공유)</label>
+            <label><input type="checkbox" /> 호텔 객실 타입/엑스트라베드 수량·설치시간·추가요금(세금 포함) 최종 확정</label>
+            <label><input type="checkbox" /> [확인완료] 호텔 얼리체크인 불가 → 2/21 오전 대기동선(짐보관/조식/수영장) 운영</label>
+            <label><input type="checkbox" /> 2/21 얼리체크인 불가 대비: 컨시어지 짐보관 + 조식 + 수영장 이용 가능 여부 재확인</label>
+          </div>
+
+          <div class="check-group">
+            <h3>투어/일정 예약</h3>
+            <label><input type="checkbox" /> 2/21(토) 두바이 마리나 요트투어 17:00~19:00 예약정보/탑승장 위치/체크인 마감 확인</label>
+            <label><input type="checkbox" /> 2/22(일) 사막투어 예약(14:00 전후 출발, Private + No Dune)</label>
+            <label><input type="checkbox" /> 사막투어 업체에 아동 연령/장모님 탑승 편의 전달 + 연락채널 확보(리얼트립/WhatsApp)</label>
+            <label><input type="checkbox" /> 2/23 아부다비 이동수단 확정(렌트 우선, 대안: 전용차량 10~12시간)</label>
+            <label><input type="checkbox" /> 아부다비 자연사 박물관 운영시간/입장 가능 시간 확인(가능 시 온라인 예매)</label>
+            <label><input type="checkbox" /> 그랜드 모스크 무료 예약 QR 준비(모바일+종이 출력본)</label>
+            <label><input type="checkbox" /> 2/26 미래박물관 17:30 티켓/입장 QR 재확인</label>
+          </div>
+
+          <div class="check-group">
+            <h3>서류/안전/준비물</h3>
+            <label><input type="checkbox" /> [이번주 목요일] 국제운전면허증(IDP) 최종 발급/수령 완료 확인</label>
+            <label><input type="checkbox" /> 셰이크 자이드 모스크 복장 규정 준비(어깨/무릎 가림)</label>
+            <label><input type="checkbox" /> 여행자 보험(의료/수하물/일정변경 보장) 확인</label>
+            <label><input type="checkbox" /> 행사 기간(2/24~2/26) 가족 비상연락/합류 지점 사전 공유 (2/26 밤 공항 이동 포함)</label>
+            <label><input type="checkbox" /> eSIM/로밍, 카드 해외결제, AED 소액 현금 준비</label>
+          </div>
         </div>
       </article>
 
