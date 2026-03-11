@@ -1,37 +1,178 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>페이지 종료 안내</title>
-  <meta name="robots" content="noindex, nofollow" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>학부모 안내문 | Hup AI Kids Lab</title>
+  <meta name="description" content="초등 저학년 대상 AI 창작 수업 안내. 일정, 준비물, 안전 운영, 신청 방법을 한눈에 확인하세요." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root { color-scheme: light dark; }
-    body {
-      margin: 0;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      font-family: "Pretendard", "Noto Sans KR", system-ui, -apple-system, sans-serif;
-      background: #0b1220;
-      color: #e5e7eb;
-    }
-    .card {
-      width: min(92vw, 560px);
-      border: 1px solid #334155;
-      border-radius: 16px;
-      padding: 28px 24px;
-      background: rgba(15, 23, 42, 0.75);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    }
-    h1 { margin: 0 0 10px; font-size: 1.4rem; }
-    p { margin: 0; line-height: 1.6; color: #cbd5e1; }
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .bg-soft { background: linear-gradient(180deg, #f7fee7 0%, #ffffff 50%, #f8fafc 100%); }
   </style>
 </head>
-<body>
-  <main class="card" role="main">
-    <h1>두바이 가족여행 페이지는 종료되었습니다.</h1>
-    <p>여행 일정 공유가 마무리되어 본 홈페이지는 내렸습니다. 감사합니다.</p>
-  </main>
+<body class="text-slate-900 bg-soft">
+  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-lime-100">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="#top" class="font-black text-lg text-emerald-700">🫛 Hup AI Kids Lab</a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+        <a href="#why" class="hover:text-lime-700">교육 가치</a>
+        <a href="#program" class="hover:text-lime-700">프로그램</a>
+        <a href="#guide" class="hover:text-lime-700">운영 안내</a>
+        <a href="#faq" class="hover:text-lime-700">FAQ</a>
+      </div>
+      <a href="#apply" class="inline-flex items-center rounded-full bg-lime-600 px-4 py-2 text-white text-sm font-bold hover:bg-lime-700">지금 신청하기</a>
+    </div>
+  </nav>
+
+  <header id="top" class="py-20 px-4">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="inline-block bg-lime-100 text-lime-700 rounded-full px-4 py-1 text-sm font-bold mb-5">초등 저학년 AI 창작 체험</p>
+        <h1 class="text-4xl md:text-5xl font-black leading-tight mb-6">
+          우리 아이의 첫 AI 수업,
+          <span class="text-emerald-700">안전하고 즐겁게</span>
+          시작하세요.
+        </h1>
+        <p class="text-slate-600 text-lg leading-relaxed mb-7">
+          Hup AI Kids Lab은 아이가 AI와 대화하며 그림·스토리·미니게임을 직접 만들어보는 수업입니다.
+          단순 사용이 아니라 <strong>질문하는 힘</strong>, <strong>표현하는 자신감</strong>, <strong>생각을 구조화하는 습관</strong>을 기릅니다.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-3 text-sm">
+          <div class="rounded-2xl bg-white border border-lime-100 p-4"><strong>일시</strong><br>이번 주 토요일 · 100분</div>
+          <div class="rounded-2xl bg-white border border-lime-100 p-4"><strong>장소</strong><br>금호동 Hup</div>
+          <div class="rounded-2xl bg-white border border-lime-100 p-4"><strong>대상</strong><br>초등 1~4학년 권장</div>
+          <div class="rounded-2xl bg-white border border-lime-100 p-4"><strong>정원</strong><br>12명 (선착순)</div>
+        </div>
+      </div>
+      <div class="rounded-3xl bg-white border border-lime-100 shadow-xl p-8">
+        <h2 class="font-extrabold text-2xl mb-5">기대되는 학습 변화</h2>
+        <ul class="space-y-3 text-slate-700">
+          <li>✅ AI에게 명확하게 요청하며 <strong>질문력</strong>이 좋아져요.</li>
+          <li>✅ 아이디어를 결과물로 만들며 <strong>표현 자신감</strong>이 커져요.</li>
+          <li>✅ 시도→수정→완성 과정에서 <strong>문제 해결 습관</strong>을 익혀요.</li>
+          <li>✅ 놀이형 활동으로 <strong>디지털 리터러시</strong>를 자연스럽게 쌓아요.</li>
+        </ul>
+        <p class="text-xs text-slate-500 mt-5">* 개별 아동의 성향과 경험에 따라 결과는 달라질 수 있습니다.</p>
+      </div>
+    </div>
+  </header>
+
+  <section id="why" class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-black mb-10 text-center">왜 지금, AI 리터러시일까요?</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6">
+          <h3 class="font-extrabold mb-2">생성형 AI 시대의 기본기</h3>
+          <p class="text-sm text-slate-600">앞으로의 학습은 ‘정답 찾기’보다 ‘좋은 질문 만들기’가 핵심입니다.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-6">
+          <h3 class="font-extrabold mb-2">놀이로 배우는 사고력</h3>
+          <p class="text-sm text-slate-600">그림·스토리·게임 제작을 통해 논리와 창의를 동시에 훈련합니다.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-6">
+          <h3 class="font-extrabold mb-2">안전한 첫 경험</h3>
+          <p class="text-sm text-slate-600">연령에 맞는 주제와 가이드를 적용해 AI를 건강하게 경험합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="program" class="py-16 bg-emerald-900 text-white px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-black text-center mb-10">100분 프로그램 구성</h2>
+      <div class="grid md:grid-cols-4 gap-5 text-sm">
+        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-5"><strong>1) 아이스브레이킹</strong><br><span class="text-emerald-100">AI와 친해지기, 안전 사용 약속</span></div>
+        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-5"><strong>2) 그림/캐릭터 만들기</strong><br><span class="text-emerald-100">상상한 내용을 AI로 시각화</span></div>
+        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-5"><strong>3) 미니게임 기획</strong><br><span class="text-emerald-100">목표·규칙·장애물 설계</span></div>
+        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-5"><strong>4) 발표 & 회고</strong><br><span class="text-emerald-100">작품 공유, 집에서 이어가기 안내</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guide" class="py-16 px-4">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
+      <div class="bg-white rounded-3xl border border-lime-100 p-8 shadow-sm">
+        <h3 class="text-2xl font-black mb-4">준비물 & 입실 안내</h3>
+        <ul class="space-y-2 text-sm text-slate-700">
+          <li>• 노트북(충전기 포함), 마우스 권장</li>
+          <li>• 구글 계정 로그인 상태 확인</li>
+          <li>• 시작 10분 전 입실 권장</li>
+          <li>• 종료 시간 보호자 직접 픽업</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-3xl border border-lime-100 p-8 shadow-sm">
+        <h3 class="text-2xl font-black mb-4">운영 정책</h3>
+        <ul class="space-y-2 text-sm text-slate-700">
+          <li>• 정원: 12명 (멘토 3명 운영)</li>
+          <li>• 사진/영상 촬영은 사전 동의자에 한해 진행</li>
+          <li>• 결석/환불 규정은 신청 폼 하단 안내 기준 적용</li>
+          <li>• 문의: 010-2871-5586 (위대한)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="py-16 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-black text-center mb-10">자주 묻는 질문</h2>
+      <div class="space-y-3" id="faqWrap">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">타자가 느린데 참여 가능한가요? <span>▼</span></button>
+          <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">가능합니다. 짧은 문장 템플릿, 음성 입력 보조, 멘토 개별 지원으로 진행합니다.</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">코딩을 전혀 몰라도 괜찮나요? <span>▼</span></button>
+          <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">네. 본 수업은 코딩 문법 수업이 아니라 AI와 문제를 정의하고 결과를 만드는 수업입니다.</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">안전하게 운영되나요? <span>▼</span></button>
+          <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">연령 적합 주제, 지도자 모니터링, 안전 사용 가이드를 기반으로 수업을 운영합니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply" class="py-20 px-4">
+    <div class="max-w-4xl mx-auto bg-lime-600 text-white rounded-3xl p-10 text-center">
+      <p class="font-bold text-lime-100 mb-2">이번 주 수업</p>
+      <h2 class="text-3xl md:text-4xl font-black mb-4">선착순 모집 중</h2>
+      <p class="mb-6 opacity-95">아래 신청 링크에서 일정·수강료·환불 규정을 확인하고 접수해주세요.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#" class="bg-white text-lime-700 font-extrabold px-6 py-3 rounded-full">신청 링크 열기</a>
+        <a href="tel:01028715586" class="bg-lime-700 text-white font-extrabold px-6 py-3 rounded-full">전화 문의하기</a>
+      </div>
+      <p class="text-xs mt-4 text-lime-100">* 신청 링크를 실제 폼 URL로 교체해 사용하세요.</p>
+    </div>
+  </section>
+
+  <footer class="py-10 text-center text-sm text-slate-500">
+    © 2026 Hup AI Kids Lab. All rights reserved.
+  </footer>
+
+  <script>
+    const wrap = document.getElementById('faqWrap');
+    wrap.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const panel = btn.nextElementSibling;
+        const isOpen = !panel.classList.contains('hidden');
+
+        wrap.querySelectorAll('.faq-panel').forEach(p => p.classList.add('hidden'));
+        wrap.querySelectorAll('.faq-btn').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          b.querySelector('span').textContent = '▼';
+        });
+
+        if (!isOpen) {
+          panel.classList.remove('hidden');
+          btn.setAttribute('aria-expanded', 'true');
+          btn.querySelector('span').textContent = '▲';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
