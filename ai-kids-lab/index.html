@@ -10,9 +10,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
+    html { scroll-behavior: smooth; }
     body { font-family: 'Noto Sans KR', sans-serif; font-size: 17px; word-break: keep-all; overflow-wrap: anywhere; }
     .bg-soft { background: linear-gradient(180deg, #f7fee7 0%, #ffffff 50%, #f8fafc 100%); }
     .btn-lg { padding: 0.95rem 1.45rem; font-size: 1rem; border-radius: 9999px; font-weight: 800; }
+    .soft-card { transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
+    .soft-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px -18px rgba(15, 23, 42, 0.35); border-color: rgba(16, 185, 129, 0.35); }
+    .reveal { opacity: 0; transform: translateY(18px) scale(.99); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0) scale(1); }
+    .hero-blob { position:absolute; border-radius:9999px; filter: blur(26px); opacity:.35; animation: floaty 9s ease-in-out infinite; pointer-events:none; }
+    .hero-blob.b1{ width:150px; height:150px; background:#84cc16; top:8%; right:6%; }
+    .hero-blob.b2{ width:110px; height:110px; background:#34d399; bottom:8%; left:4%; animation-delay: -3s; }
+    @keyframes floaty { 0%,100%{ transform: translateY(0px);} 50%{ transform: translateY(-10px);} }
+
     @media (max-width: 640px) {
       body { font-size: 16px; }
       .btn-lg { width: 100%; }
@@ -20,6 +30,7 @@
   </style>
 </head>
 <body class="text-slate-900 bg-soft">
+  <div id="scrollBar" class="fixed top-0 left-0 z-[60] h-1 bg-emerald-500" style="width:0%"></div>
   <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-lime-100">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="#top" class="font-black text-lg text-emerald-700">🫛 Aino Kids Lab</a>
@@ -29,12 +40,14 @@
         <a href="#guide" class="hover:text-lime-700">운영 안내</a>
         <a href="#faq" class="hover:text-lime-700">FAQ</a>
       </div>
-      <a href="#apply" class="inline-flex items-center rounded-full bg-lime-600 px-5 py-3 text-white text-base font-bold hover:bg-lime-700">지금 신청하기</a>
+      <a href="#apply" class="inline-flex items-center rounded-full bg-lime-600 px-5 py-3 text-white text-base font-bold hover:bg-lime-700 transition-all duration-300 hover:-translate-y-0.5">지금 신청하기</a>
     </div>
   </nav>
 
-  <header id="top" class="py-20 px-4">
-    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+  <header id="top" class="py-20 px-4 relative overflow-hidden">
+    <div class="hero-blob b1"></div>
+    <div class="hero-blob b2"></div>
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center reveal">
       <div>
         <p class="inline-block bg-lime-100 text-lime-700 rounded-full px-4 py-1 text-sm font-bold mb-5">초등 저학년 AI 창작 체험</p>
         <h1 class="text-[2rem] sm:text-4xl md:text-5xl font-black leading-[1.25] sm:leading-tight mb-6">
@@ -52,7 +65,7 @@
           <div class="rounded-2xl bg-white border border-lime-100 p-4"><strong>정원</strong><br>최대 6명 (선착순)</div>
         </div>
       </div>
-      <div class="rounded-3xl bg-white border border-lime-100 shadow-xl p-6 sm:p-8">
+      <div class="rounded-3xl bg-white border border-lime-100 shadow-xl p-6 sm:p-8 soft-card reveal">
         <h2 class="font-extrabold text-2xl mb-5">기대되는 학습 변화</h2>
         <ul class="space-y-3 text-slate-700">
           <li>✅ AI에게 명확하게 요청하며 <strong>질문력</strong>이 좋아져요.</li>
@@ -69,15 +82,15 @@
     <div class="max-w-6xl mx-auto">
       <h2 class="text-3xl font-black mb-10 text-center">왜 지금, AI 리터러시일까요?</h2>
       <div class="grid md:grid-cols-3 gap-5 sm:gap-6">
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 soft-card reveal">
           <h3 class="font-extrabold mb-2">생성형 AI 시대의 기본기</h3>
           <p class="text-sm text-slate-600">앞으로의 학습은 ‘정답 찾기’보다 ‘좋은 질문 만들기’가 핵심입니다.</p>
         </div>
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 soft-card reveal">
           <h3 class="font-extrabold mb-2">놀이로 배우는 사고력</h3>
           <p class="text-sm text-slate-600">그림·스토리·게임 제작을 통해 논리와 창의를 동시에 훈련합니다.</p>
         </div>
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6">
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 soft-card reveal">
           <h3 class="font-extrabold mb-2">안전한 첫 경험</h3>
           <p class="text-sm text-slate-600">연령에 맞는 주제와 가이드를 적용해 AI를 건강하게 경험합니다.</p>
         </div>
@@ -89,17 +102,17 @@
     <div class="max-w-6xl mx-auto">
       <h2 class="text-3xl font-black text-center mb-10">100분 프로그램 구성</h2>
       <div class="grid md:grid-cols-4 gap-4 sm:gap-5 text-sm leading-relaxed">
-        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-4 sm:p-5"><strong>1) 아이스브레이킹</strong><br><span class="text-emerald-100">AI와 친해지기, 안전 사용 약속</span></div>
-        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-4 sm:p-5"><strong>2) 그림/캐릭터 만들기</strong><br><span class="text-emerald-100">상상한 내용을 AI로 시각화</span></div>
-        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-4 sm:p-5"><strong>3) 미니게임 기획</strong><br><span class="text-emerald-100">목표·규칙·장애물 설계</span></div>
-        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-4 sm:p-5"><strong>4) 발표 & 회고</strong><br><span class="text-emerald-100">작품 공유, 집에서 이어가기 안내</span></div>
+        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-4 sm:p-5 soft-card reveal"><strong>1) 아이스브레이킹</strong><br><span class="text-emerald-100">AI와 친해지기, 안전 사용 약속</span></div>
+        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-4 sm:p-5 soft-card reveal"><strong>2) 그림/캐릭터 만들기</strong><br><span class="text-emerald-100">상상한 내용을 AI로 시각화</span></div>
+        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-4 sm:p-5 soft-card reveal"><strong>3) 미니게임 기획</strong><br><span class="text-emerald-100">목표·규칙·장애물 설계</span></div>
+        <div class="bg-emerald-800/60 border border-emerald-700 rounded-2xl p-4 sm:p-5 soft-card reveal"><strong>4) 발표 & 회고</strong><br><span class="text-emerald-100">작품 공유, 집에서 이어가기 안내</span></div>
       </div>
     </div>
   </section>
 
   <section id="guide" class="py-16 px-4">
     <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-6 sm:gap-8">
-      <div class="bg-white rounded-3xl border border-lime-100 p-6 sm:p-8 shadow-sm">
+      <div class="bg-white rounded-3xl border border-lime-100 p-6 sm:p-8 shadow-sm soft-card reveal">
         <h3 class="text-2xl font-black mb-4">준비물 & 입실 안내</h3>
         <ul class="space-y-2.5 text-[15px] sm:text-sm leading-7 text-slate-700">
           <li>• 노트북(충전기 포함), 마우스 권장</li>
@@ -108,7 +121,7 @@
           <li>• 종료 시간 보호자 직접 픽업</li>
         </ul>
       </div>
-      <div class="bg-white rounded-3xl border border-lime-100 p-6 sm:p-8 shadow-sm">
+      <div class="bg-white rounded-3xl border border-lime-100 p-6 sm:p-8 shadow-sm soft-card reveal">
         <h3 class="text-2xl font-black mb-4">운영 정책</h3>
         <ul class="space-y-2.5 text-[15px] sm:text-sm leading-7 text-slate-700">
           <li>• 정원: 최대 6명</li>
@@ -125,15 +138,15 @@
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-black text-center mb-10">자주 묻는 질문</h2>
       <div class="space-y-3" id="faqWrap">
-        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden soft-card reveal">
           <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">타자가 느린데 참여 가능한가요? <span>▼</span></button>
           <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">가능합니다. 짧은 문장 템플릿과 음성 입력 보조를 활용해 선생님이 단계별로 안내합니다.</div>
         </div>
-        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden soft-card reveal">
           <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">코딩을 전혀 몰라도 괜찮나요? <span>▼</span></button>
           <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">네. 본 수업은 코딩 문법 수업이 아니라 AI와 문제를 정의하고 결과를 만드는 수업입니다.</div>
         </div>
-        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden soft-card reveal">
           <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">안전하게 운영되나요? <span>▼</span></button>
           <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">연령 적합 주제, 지도자 모니터링, 안전 사용 가이드를 기반으로 수업을 운영합니다.</div>
         </div>
@@ -142,7 +155,7 @@
   </section>
 
   <section id="apply" class="py-20 px-4">
-    <div class="max-w-4xl mx-auto bg-lime-600 text-white rounded-3xl p-10 text-center">
+    <div class="max-w-4xl mx-auto bg-lime-600 text-white rounded-3xl p-10 text-center soft-card reveal">
       <p class="font-bold text-lime-100 mb-2">이번 주 수업</p>
       <h2 class="text-3xl md:text-4xl font-black mb-4">선착순 모집 중</h2>
       <p class="mb-6 opacity-95">아래 신청 링크에서 일정·수강료·환불 규정을 확인한 뒤<br class="hidden sm:block">접수해주세요.</p>
@@ -182,6 +195,27 @@
         }
       });
     });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    const scrollBar = document.getElementById('scrollBar');
+    const updateScrollBar = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      scrollBar.style.width = pct + '%';
+    };
+    document.addEventListener('scroll', updateScrollBar, { passive: true });
+    updateScrollBar();
   </script>
 </body>
 </html>
