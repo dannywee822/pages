@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hup AI Kids Lab: 학생 미션 보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 220px;
+            max-height: 250px;
+        }
+
+        .detail-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .detail-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .detail-scroll::-webkit-scrollbar-thumb {
+            background-color: #bef264;
+            border-radius: 10px;
+        }
+
+        .mission-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mission-item.active {
+            border-color: #65a30d;
+            background-color: #f7fee7;
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .mission-item:hover:not(.active) {
+            background-color: #f9fafb;
+        }
+
+        .progress-line {
+            position: absolute;
+            left: 2.5rem;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #ecfdf5;
+            z-index: 0;
+        }
+
+        @keyframes pulse-soft {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .active-icon {
+            animation: pulse-soft 2s infinite;
+        }
+    </style>
+    <!-- Chosen Palette: Fresh Pea Green (Lime) and Emerald for growth and energy -->
+    <!-- Application Structure Plan: This SPA is redesigned as a "Student Mission Board". It replaces teacher-centric navigation with a "Mission Progress" flow. The left panel shows the overall mission list with checkmarks to give students a sense of achievement. The right panel displays the current mission in a large, easy-to-read "Mission Card" format, focusing on visual instructions and emojis rather than complex scripts. -->
+    <!-- Visualization & Content Choices: Mission Time Log -> Goal: Inform -> Viz: Doughnut Chart (Chart.js/Canvas) -> Interaction: Hover to see time left -> Justification: Helps kids understand how much time they have for each fun activity. Interactive Mission List -> Goal: Organize/Gamify -> Viz: Card List (HTML/Tailwind) -> Interaction: Click to see mission details -> Justification: Simplifies navigation into a game-like quest sequence. Confirming NO SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+
+<body class="bg-lime-50 text-slate-800 antialiased h-screen overflow-hidden flex flex-col">
+
+    <!-- Top Banner -->
+    <header
+        class="bg-white border-b border-lime-200 px-6 py-4 flex flex-col md:flex-row justify-between items-center shrink-0 z-10 shadow-sm">
+        <div class="flex items-center space-x-3 mb-2 md:mb-0">
+            <span class="text-3xl">🫛</span>
+            <div>
+                <h1 class="text-xl md:text-2xl font-black text-lime-900 tracking-tight">Hup AI Kids Lab: 미션 보드</h1>
+                <p class="text-sm text-lime-600 font-bold">오늘은 내가 AI 마법사! ✨</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div id="overall-progress"
+                class="bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-black border border-emerald-200 shadow-sm">
+                현재 미션: 1 / 5
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Board -->
+    <div class="flex-1 overflow-hidden p-4 md:p-6 flex flex-col md:flex-row gap-6 max-w-7xl mx-auto w-full">
+
+        <!-- Left Sidebar: Mission List -->
+        <aside
+            class="w-full md:w-5/12 lg:w-4/12 flex flex-col gap-6 shrink-0 h-full overflow-y-auto detail-scroll pr-2 relative">
+
+            <div class="bg-white rounded-3xl p-6 border border-lime-200 shadow-sm relative overflow-hidden">
+                <h2 class="text-lg font-black text-lime-900 mb-4 flex items-center">
+                    <span>🚀</span> <span class="ml-2">오늘의 도전 과제</span>
+                </h2>
+                <div id="mission-list" class="space-y-4 relative z-10">
+                    <!-- JS will populate mission cards here -->
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <h2 class="text-base font-bold text-slate-500 mb-4 text-center">우리의 마법 시간</h2>
+                <div class="chart-container">
+                    <canvas id="missionChart"></canvas>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- Right Panel: Mission Detail Card -->
+        <main
+            class="w-full md:w-7/12 lg:w-8/12 bg-white rounded-[2.5rem] border-4 border-lime-100 shadow-xl flex flex-col h-full overflow-hidden">
+            <!-- Card Header -->
+            <div
+                class="bg-lime-50/50 border-b-2 border-lime-100 p-8 flex flex-col sm:flex-row justify-between items-center shrink-0">
+                <div class="flex items-center space-x-5">
+                    <div id="detail-icon"
+                        class="w-20 h-20 rounded-3xl flex items-center justify-center text-5xl shadow-lg bg-white border-2 border-lime-200 active-icon">
+                        👋
+                    </div>
+                    <div>
+                        <div id="detail-badge"
+                            class="inline-block px-3 py-1 rounded-full text-xs font-black bg-lime-600 text-white mb-2 uppercase">
+                            MISSION 01</div>
+                        <h2 id="detail-title" class="text-3xl font-black text-slate-800 tracking-tight">안녕! 나는 제미나이야
+                        </h2>
+                    </div>
+                </div>
+                <div class="mt-4 sm:mt-0 text-center bg-white px-4 py-2 rounded-2xl border border-lime-100 shadow-sm">
+                    <span class="text-xs font-black text-lime-600 block">남은 시간</span>
+                    <span id="detail-time" class="text-xl font-black text-slate-800">15분</span>
+                </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-10 flex-1 overflow-y-auto detail-scroll" id="detail-content">
+                <!-- JS will populate mission details here -->
+            </div>
+
+            <!-- Bottom Helper / Tip -->
+            <div id="detail-helper" class="bg-emerald-50 border-t-2 border-emerald-100 p-6 shrink-0">
+                <div class="flex items-start space-x-4">
+                    <span class="text-2xl mt-1">💡</span>
+                    <div>
+                        <h3 class="font-black text-emerald-900 text-lg">마법사의 꿀팁!</h3>
+                        <p id="detail-tip-text" class="text-emerald-800 font-medium leading-relaxed">
+                            어려울 때는 손을 번쩍 들어주세요! 선생님이 달려갈게요.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        const studentMissions = [
+            {
+                id: 'm1',
+                step: '01',
+                title: '안녕! 나는 제미나이야',
+                time: 15,
+                icon: '👋',
+                desc: '똑똑한 AI 친구와 인사해요',
+                color: 'lime',
+                details: `
+                    <div class="space-y-8">
+                        <div class="text-xl text-slate-700 font-medium leading-relaxed">
+                            오늘 우리 교실에 아주 똑똑한 마법사 친구 <span class="text-lime-600 font-black">제미나이</span>가 찾아왔어요!
+                        </div>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="flex items-center p-6 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                                <span class="text-4xl mr-4">👂</span>
+                                <p class="text-lg font-bold">선생님이 들려주는 AI 이야기를 잘 들어보아요.</p>
+                            </div>
+                            <div class="flex items-center p-6 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                                <span class="text-4xl mr-4">🤖</span>
+                                <p class="text-lg font-bold">"제미나이야, 안녕?" 하고 마음속으로 인사해볼까요?</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                tip: '제미나이는 아주 많은 책을 읽은 공부왕 로봇이에요. 무엇이든 물어봐도 좋아요!'
+            },
+            {
+                id: 'm2',
+                step: '02',
+                title: 'AI 친구와 대화 시작!',
+                time: 15,
+                icon: '💬',
+                desc: '직접 말을 걸어볼까요?',
+                color: 'emerald',
+                details: `
+                    <div class="space-y-8">
+                        <div class="text-xl text-slate-700 font-bold mb-4">마법의 창을 열고 말을 걸어봐요!</div>
+                        <div class="space-y-4">
+                            <div class="bg-white border-4 border-emerald-100 p-6 rounded-[2rem]">
+                                <h4 class="font-black text-emerald-700 mb-4 flex items-center"><span class="mr-2">1단계:</span> 로그인하기</h4>
+                                <p class="text-slate-600 font-medium">선생님과 함께 구글 계정에 로그인하고 제미나이 화면을 띄워요.</p>
+                            </div>
+                            <div class="bg-white border-4 border-emerald-100 p-6 rounded-[2rem]">
+                                <h4 class="font-black text-emerald-700 mb-4 flex items-center"><span class="mr-2">2단계:</span> 인사 건네기</h4>
+                                <p class="text-slate-600 font-medium mb-3">아래 문장을 그대로 써보거나, 내 이름을 넣어보세요!</p>
+                                <div class="bg-slate-800 text-emerald-400 p-4 rounded-2xl font-mono text-center text-lg">
+                                    안녕 제미나이! 나는 〇〇이야.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                tip: '타자가 느려도 괜찮아요! 한 글자 한 글자 천천히 정성을 담아 써보세요.'
+            },
+            {
+                id: 'm3',
+                step: '03',
+                title: '상상 속 동물 그리기',
+                time: 20,
+                icon: '🎨',
+                desc: 'AI 화가에게 부탁해요',
+                color: 'amber',
+                details: `
+                    <div class="space-y-8">
+                        <div class="text-xl text-slate-700 font-bold">세상에 단 하나뿐인 동물을 만들어요!</div>
+                        <div class="p-8 bg-amber-50 rounded-[3rem] border-4 border-amber-100 shadow-inner">
+                            <h4 class="font-black text-amber-800 text-center text-2xl mb-6">어떻게 말하면 좋을까?</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-5 rounded-2xl shadow-sm text-center">
+                                    <span class="text-3xl block mb-2">🦁 + 🦅</span>
+                                    <p class="font-bold">"독수리 날개가 달린 사자를 그려줘!"</p>
+                                </div>
+                                <div class="bg-white p-5 rounded-2xl shadow-sm text-center">
+                                    <span class="text-3xl block mb-2">🐶 + 🌈</span>
+                                    <p class="font-bold">"무지개 털을 가진 강아지를 그려줘!"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-center font-bold text-slate-500">내가 그린 동물을 이따가 게임 주인공으로 쓸 거예요!</p>
+                    </div>
+                `,
+                tip: '색깔이나 살고 있는 곳(바다, 우주 등)을 같이 말하면 더 멋진 그림이 나와요!'
+            },
+            {
+                id: 'm4',
+                step: '04',
+                title: '슈퍼 게임 개발자!',
+                time: 40,
+                icon: '🕹️',
+                desc: '나만의 게임을 만들어요',
+                color: 'rose',
+                details: `
+                    <div class="space-y-6">
+                        <div class="bg-rose-50 p-6 rounded-3xl border-2 border-rose-100 text-center">
+                            <span class="text-sm font-black text-rose-500 uppercase tracking-widest">Great Mission</span>
+                            <h3 class="text-2xl font-black text-rose-900 mt-1">마법의 게임 만들기!</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="p-6 bg-white rounded-3xl border-2 border-slate-100 shadow-sm">
+                                <h4 class="font-black text-slate-800 mb-2">1. 게임 기획하기</h4>
+                                <p class="text-sm text-slate-500 font-medium">활동지에 [주인공 / 장애물 / 목표]를 적어보세요.</p>
+                            </div>
+                            <div class="p-6 bg-white rounded-3xl border-2 border-slate-100 shadow-sm">
+                                <h4 class="font-black text-slate-800 mb-2">2. AI에게 시키기</h4>
+                                <p class="text-sm text-slate-500 font-medium mb-3">제미나이에게 마법의 주문을 걸어보세요!</p>
+                                <div class="bg-slate-100 p-3 rounded-xl font-bold text-slate-600 text-center">
+                                    "~하는 게임을 만들어줘!"
+                                </div>
+                            </div>
+                            <div class="p-6 bg-white rounded-3xl border-2 border-slate-100 shadow-sm">
+                                <h4 class="font-black text-slate-800 mb-2">3. 게임 플레이!</h4>
+                                <p class="text-sm text-slate-500 font-medium">오른쪽 화면에 나타난 게임을 직접 해보세요.</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                tip: '게임이 안 된다고요? "제미나이, 다시 고쳐줘!"라고 당당하게 말해보세요.'
+            },
+            {
+                id: 'm5',
+                step: '05',
+                title: '우리의 약속 & 자랑하기',
+                time: 10,
+                icon: '🏆',
+                desc: '멋진 마법사가 되었어요',
+                color: 'purple',
+                details: `
+                    <div class="space-y-8 text-center">
+                        <div class="py-10">
+                            <span class="text-7xl">🎉</span>
+                            <h3 class="text-3xl font-black text-purple-900 mt-6">미션 완료! 축하합니다!</h3>
+                        </div>
+                        <div class="bg-purple-50 p-8 rounded-[3rem] border-4 border-purple-100">
+                            <h4 class="font-black text-purple-800 mb-4">멋진 AI 마법사의 약속</h4>
+                            <ul class="text-left space-y-3 font-bold text-slate-700 max-w-xs mx-auto">
+                                <li>✨ 예의 바르고 고운 말 쓰기</li>
+                                <li>✨ 알려준 정보가 진짜인지 생각하기</li>
+                                <li>✨ 나쁜 게임은 만들지 않기</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                tip: '옆 친구의 게임도 구경해볼까요? "와! 정말 멋지다!" 하고 칭찬해줘요.'
+            }
+        ];
+
+        let activeMissionId = studentMissions[0].id;
+
+        const missionListEl = document.getElementById('mission-list');
+        const detailIconEl = document.getElementById('detail-icon');
+        const detailBadgeEl = document.getElementById('detail-badge');
+        const detailTitleEl = document.getElementById('detail-title');
+        const detailTimeEl = document.getElementById('detail-time');
+        const detailContentEl = document.getElementById('detail-content');
+        const detailTipTextEl = document.getElementById('detail-tip-text');
+        const overallProgressEl = document.getElementById('overall-progress');
+
+        function init() {
+            renderMissions();
+            renderChart();
+            updateDetail(activeMissionId);
+        }
+
+        function renderMissions() {
+            missionListEl.innerHTML = '';
+            studentMissions.forEach((m, idx) => {
+                const isActive = m.id === activeMissionId;
+                const isCompleted = studentMissions.indexOf(studentMissions.find(x => x.id === activeMissionId)) > idx;
+
+                const card = document.createElement('button');
+                card.onclick = () => selectMission(m.id);
+                card.className = `mission-item w-full text-left p-4 rounded-2xl border-2 flex items-center justify-between ${isActive ? 'active' : 'bg-white border-slate-100'}`;
+
+                card.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl bg-slate-50 border border-slate-100">
+                            ${isCompleted ? '✅' : m.icon}
+                        </div>
+                        <div>
+                            <div class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">MISSION ${m.step}</div>
+                            <div class="text-sm font-black ${isActive ? 'text-lime-900' : 'text-slate-700'}">${m.title}</div>
+                        </div>
+                    </div>
+                `;
+                missionListEl.appendChild(card);
+            });
+        }
+
+        function selectMission(id) {
+            activeMissionId = id;
+            renderMissions();
+            updateDetail(id);
+
+            const idx = studentMissions.findIndex(m => m.id === id);
+            overallProgressEl.textContent = `현재 미션: ${idx + 1} / 5`;
+        }
+
+        function updateDetail(id) {
+            const data = studentMissions.find(m => m.id === id);
+            detailIconEl.textContent = data.icon;
+            detailBadgeEl.textContent = `MISSION ${data.step}`;
+            detailTitleEl.textContent = data.title;
+            detailTimeEl.textContent = `${data.time}분`;
+            detailContentEl.innerHTML = data.details;
+            detailTipTextEl.innerHTML = data.tip;
+            detailContentEl.scrollTop = 0;
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('missionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: studentMissions.map(m => m.title),
+                    datasets: [{
+                        data: studentMissions.map(m => m.time),
+                        backgroundColor: ['#d9f99d', '#a7f3d0', '#fde68a', '#fecdd3', '#e9d5ff'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => ` ${ctx.label}: ${ctx.raw}분`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
