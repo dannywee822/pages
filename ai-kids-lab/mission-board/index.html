@@ -87,6 +87,19 @@
         .active-icon {
             animation: pulse-soft 2s infinite;
         }
+    
+
+        .sticky-progress-wrap { position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.92); backdrop-filter: blur(6px); }
+        .progress-track { height: 10px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#84cc16,#10b981); transition: width .35s ease; }
+        .cheat-chip { border:1px solid #cbd5e1; border-radius:999px; padding:.35rem .75rem; font-weight:800; font-size:.85rem; background:#fff; }
+        .cheat-chip:hover { background:#f0fdf4; border-color:#84cc16; }
+        .k12 .mission-item .text-sm { font-size: .95rem; }
+        .k12 #detail-content { font-size: 1.14rem; }
+        .k12 #detail-icon { width: 5.8rem; height: 5.8rem; font-size: 3.2rem; }
+        .burst { position: fixed; font-size: 24px; pointer-events:none; z-index: 9999; animation: pop 900ms ease-out forwards; }
+        @keyframes pop { 0%{transform:translateY(0) scale(.6);opacity:1;} 100%{transform:translateY(-120px) scale(1.3);opacity:0;} }
+        .floating-promise { position: fixed; right: 12px; bottom: 12px; z-index: 30; background:#ffffffdd; border:1px solid #bbf7d0; border-radius:14px; padding:10px 12px; max-width: 250px; box-shadow: 0 8px 22px rgba(0,0,0,.08); }
     </style>
     <!-- Chosen Palette: Fresh Pea Green (Lime) and Emerald for growth and energy -->
     <!-- Application Structure Plan: This SPA is redesigned as a "Student Mission Board". It replaces teacher-centric navigation with a "Mission Progress" flow. The left panel shows the overall mission list with checkmarks to give students a sense of achievement. The right panel displays the current mission in a large, easy-to-read "Mission Card" format, focusing on visual instructions and emojis rather than complex scripts. -->
@@ -113,6 +126,14 @@
             </div>
         </div>
     </header>
+
+    <section class="sticky-progress-wrap border-b border-lime-100 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center gap-3">
+            <span class="text-xs md:text-sm font-black text-slate-600">진행률</span>
+            <div class="progress-track flex-1"><div id="top-progress-bar" class="progress-fill"></div></div>
+            <span id="top-progress-text" class="text-xs md:text-sm font-black text-emerald-700">0%</span>
+        </div>
+    </section>
 
     <!-- Main Board -->
     <div class="flex-1 overflow-hidden p-4 md:p-6 flex flex-col md:flex-row gap-6 max-w-7xl mx-auto w-full">
@@ -152,10 +173,18 @@
                         </h2>
                     </div>
                 </div>
-                <div class="mt-4 sm:mt-0 text-center bg-white px-4 py-2 rounded-2xl border border-lime-100 shadow-sm">
-                    <span class="text-xs font-black text-lime-600 block">남은 시간</span>
-                    <span id="detail-time" class="text-xl font-black text-slate-800">15분</span>
+                <div class="mt-4 sm:mt-0 flex flex-col items-center gap-2">
+                    <div class="text-center bg-white px-4 py-2 rounded-2xl border border-lime-100 shadow-sm">
+                        <span class="text-xs font-black text-lime-600 block">남은 시간</span>
+                        <span id="detail-time" class="text-xl font-black text-slate-800">15분</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="tts-btn" class="px-3 py-2 rounded-xl bg-slate-100 text-slate-700 font-black text-xs">🔊 읽어주기</button>
+                        <button id="mission-done-btn" class="px-3 py-2 rounded-xl bg-emerald-600 text-white font-black text-xs">✅ 완료!</button>
+                    </div>
+                    <div class="text-[11px] font-bold text-slate-500">현재 발표: <span id="presenter-name" class="text-emerald-700">준비중</span></div>
                 </div>
+
             </div>
 
             <!-- Card Body -->
@@ -177,6 +206,21 @@
             </div>
         </main>
 
+    </div>
+
+    <section id="share-zone" class="px-4 pb-6">
+        <div class="max-w-7xl mx-auto bg-white border border-emerald-100 rounded-3xl p-5 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+                <h3 class="font-black text-emerald-800 text-lg">📁 결과물 공유 공간</h3>
+                <p class="text-slate-600 font-semibold text-sm">발표가 끝나면 버튼을 눌러 공유 폴더/패들렛에 업로드하세요.</p>
+            </div>
+            <a href="#" class="px-5 py-3 rounded-2xl bg-emerald-600 text-white font-black">공유 공간 열기 (링크 연결)</a>
+        </div>
+    </section>
+
+    <div class="floating-promise">
+        <div class="text-xs font-black text-emerald-700 mb-1">공동의 약속</div>
+        <div class="text-[12px] font-semibold text-slate-600">개인정보는 입력하지 않기 · 이상한 답은 함께 확인하기</div>
     </div>
 
     <script>
@@ -269,6 +313,22 @@
                         <div class="bg-white p-6 rounded-3xl border-2 border-slate-200">
                             <h5 class="font-black text-slate-800 mb-3">느낌/스타일 단어장</h5>
                             <p class="font-semibold text-slate-600">반짝반짝한 · 무시무시한 · 따뜻한 · 수채화 같은 · 클레이 점토 같은 · 픽셀 게임 같은</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border-2 border-emerald-100">
+                            <h5 class="font-black text-emerald-800 mb-3">프롬프트 치트키</h5>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <button class="cheat-chip" data-cheat="픽사 스타일">픽사 스타일</button>
+                                <button class="cheat-chip" data-cheat="레고 스타일">레고 스타일</button>
+                                <button class="cheat-chip" data-cheat="수채화 느낌">수채화 느낌</button>
+                                <button class="cheat-chip" data-cheat="픽셀 게임 느낌">픽셀 게임 느낌</button>
+                            </div>
+                            <div id="cheat-preview" class="text-lg font-black text-emerald-700 min-h-[2rem]">치트키를 눌러보세요!</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border-2 border-indigo-100">
+                            <h5 class="font-black text-indigo-800 mb-3">입력 비포/애프터 비교</h5>
+                            <input id="before-after-slider" type="range" min="0" max="100" value="0" class="w-full">
+                            <div class="mt-3 text-sm font-semibold text-slate-700">입력: <span id="ba-text">고양이 그려줘</span></div>
+                            <div class="text-sm font-bold text-indigo-700">설명: 슬라이더를 오른쪽으로 갈수록 입력이 구체적으로 바뀝니다.</div>
                         </div>
                     </div>
                 `,
@@ -374,10 +434,40 @@
         const detailContentEl = document.getElementById('detail-content');
         const detailTipTextEl = document.getElementById('detail-tip-text');
         const overallProgressEl = document.getElementById('overall-progress');
+        const topProgressBar = document.getElementById('top-progress-bar');
+        const topProgressText = document.getElementById('top-progress-text');
+        const ttsBtn = document.getElementById('tts-btn');
+        const doneBtn = document.getElementById('mission-done-btn');
+        const presenterNameEl = document.getElementById('presenter-name');
+
+        function updateTopProgress() {
+            const idx = studentMissions.findIndex(m => m.id === activeMissionId);
+            const pct = Math.round(((idx + 1) / studentMissions.length) * 100);
+            if (topProgressBar) topProgressBar.style.width = pct + '%';
+            if (topProgressText) topProgressText.textContent = pct + '%';
+        }
+
+        function applyGradeVisual(grade) {
+            document.body.classList.toggle('k12', grade === 'k12');
+        }
+
+        function burst() {
+            const emojis=['🎉','✨','🚀','💯','👏'];
+            for(let i=0;i<14;i++){
+                const el=document.createElement('div');
+                el.className='burst';
+                el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+                el.style.left=(window.innerWidth*0.4 + Math.random()*window.innerWidth*0.2)+'px';
+                el.style.top=(window.innerHeight*0.55 + Math.random()*40)+'px';
+                document.body.appendChild(el);
+                setTimeout(()=>el.remove(),900);
+            }
+        }
 
         function init() {
             renderMissions();
             updateDetail(activeMissionId);
+            updateTopProgress();
         }
 
         function renderMissions() {
@@ -412,6 +502,8 @@
 
             const idx = studentMissions.findIndex(m => m.id === id);
             overallProgressEl.textContent = `현재 미션: ${idx + 1} / ${studentMissions.length}`;
+            updateTopProgress();
+            if (presenterNameEl) presenterNameEl.textContent = '준비중';
         }
 
         function updateDetail(id) {
