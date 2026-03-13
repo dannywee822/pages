@@ -130,12 +130,6 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-                <h2 class="text-base font-bold text-slate-500 mb-4 text-center">우리의 마법 시간</h2>
-                <div class="chart-container">
-                    <canvas id="missionChart"></canvas>
-                </div>
-            </div>
 
         </aside>
 
@@ -391,7 +385,6 @@
 
         function init() {
             renderMissions();
-            renderChart();
             updateDetail(activeMissionId);
         }
 
@@ -438,34 +431,6 @@
             detailContentEl.innerHTML = data.details;
             detailTipTextEl.innerHTML = data.tip;
             detailContentEl.scrollTop = 0;
-        }
-
-        function renderChart() {
-            const ctx = document.getElementById('missionChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: studentMissions.map(m => m.title),
-                    datasets: [{
-                        data: studentMissions.map(m => m.time),
-                        backgroundColor: ['#d9f99d', '#a7f3d0', '#fde68a', '#bae6fd', '#fecdd3', '#e9d5ff'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '75%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: (ctx) => ` ${ctx.label}: ${ctx.raw}분`
-                            }
-                        }
-                    }
-                }
-            });
         }
 
         init();
