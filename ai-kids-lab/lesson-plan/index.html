@@ -106,7 +106,11 @@
                 <p class="text-sm text-lime-600 font-bold">오늘은 내가 AI 마법사! ✨</p>
             </div>
         </div>
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-3">
+            <div class="bg-white border border-lime-200 rounded-full p-1 flex items-center" role="group" aria-label="학년 코멘트 토글">
+                <button id="grade-k12" class="px-3 py-1.5 rounded-full text-xs font-black text-slate-600">1~2학년</button>
+                <button id="grade-k34" class="px-3 py-1.5 rounded-full text-xs font-black bg-lime-600 text-white">3~4학년</button>
+            </div>
             <div id="overall-progress"
                 class="bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-black border border-emerald-200 shadow-sm">
                 현재 미션: 1 / 6
@@ -426,10 +430,109 @@
         const detailContentEl = document.getElementById('detail-content');
         const detailTipTextEl = document.getElementById('detail-tip-text');
         const overallProgressEl = document.getElementById('overall-progress');
+        const gradeK12Btn = document.getElementById('grade-k12');
+        const gradeK34Btn = document.getElementById('grade-k34');
+        let activeGrade = 'k34';
+
+        const gradeComments = {
+            m1: {
+                k12: [
+                    '• "오늘은 AI랑 친해지는 날이에요. 천천히 해도 충분해요."',
+                    '• "내 이름, 집주소, 비밀번호는 AI에게 말하지 않아요."',
+                    '• "이상한 답이 나오면 바로 손들고 선생님을 불러요."'
+                ],
+                k34: [
+                    '• "오늘 수업은 AI를 쓰는 사람이 아니라, AI를 설계하는 사람이 되는 시간이에요."',
+                    '• "개인정보 보호는 규칙이 아니라 디지털 실력이에요. 비밀번호·집주소·전화번호는 입력하지 않아요."',
+                    '• "이상한 답이 나오면 실패가 아니라 데이터 수정 기회예요. 원인을 찾고 입력을 바꿔봐요."'
+                ]
+            },
+            m2: {
+                k12: [
+                    '• "처음은 한 문장만! 짧게 쓰면 더 쉬워요."',
+                    '• "천천히 정확하게 쓰는 게 제일 중요해요."',
+                    '• "친구 문장을 참고해도 좋아요. 내 이름만 바꿔도 돼요."'
+                ],
+                k34: [
+                    '• "첫 입력은 짧고 명확하게. 핵심 단어 3개만 넣어도 품질이 올라가요."',
+                    '• "속도보다 정확도예요. 빠르게 쓰는 것보다 정확히 쓰는 게 결과를 바꿔요."',
+                    '• "기본 문장을 복사한 뒤, 내 목표에 맞게 한 단어씩 수정해보세요."'
+                ]
+            },
+            m3: {
+                k12: [
+                    '• "'멋지게'보다 색깔, 표정, 장소를 말해주면 더 잘 그려줘요."',
+                    '• "한 번에 어려우면 한 가지씩만 바꿔봐요."',
+                    '• "입력을 바꾸면 결과가 달라져요. 이게 오늘의 핵심이에요!"'
+                ],
+                k34: [
+                    '• "'멋지게'는 추상어라 약해요. 색, 배경, 스타일처럼 측정 가능한 단어를 넣어보세요."',
+                    '• "결과가 아쉬우면 감정 말고 실험! 색/표정/배경 중 1개만 바꿔서 비교해봐요."',
+                    '• "같은 AI인데 결과가 달라졌다면, 원인은 입력 데이터예요. 이게 오늘의 핵심 역량입니다."'
+                ]
+            },
+            m4: {
+                k12: [
+                    '• "쉬는 것도 미션이에요. 물 마시고 몸을 풀어봐요."',
+                    '• "5분 쉬고 더 멋진 아이디어로 돌아와요."',
+                    '• "준비되면 엄지척하고 다음 단계로 가요."'
+                ],
+                k34: [
+                    '• "리셋 5분! 눈·목·어깨를 풀고 돌아와서, 다음 미션에서 더 좋은 아이디어를 뽑아봅시다."',
+                    '• "집중력 회복도 실력입니다. 짧게 쉬고 정확히 다시 시작해요."',
+                    '• "복귀 후 목표 1개를 먼저 정하고 입력하세요."'
+                ]
+            },
+            m5: {
+                k12: [
+                    '• "규칙은 3개 이하면 친구들이 이해하기 쉬워요."',
+                    '• "안 되면 "더 쉽게"를 붙여서 다시 부탁해봐요."',
+                    '• "포기 말고 다시 시도하면 진짜 개발자예요."'
+                ],
+                k34: [
+                    '• "좋은 게임은 복잡한 게임이 아니라 설명 1분 안에 이해되는 게임이에요."',
+                    '• "기획자 기준 체크: 목표 1개, 규칙 3개, 장애물 1~2개면 완성도 높아요."',
+                    '• "안 되면 포기가 아니라 디버깅입니다. "더 쉽게", "한 단계씩"을 추가해 수정하세요."'
+                ]
+            },
+            m6: {
+                k12: [
+                    '• "발표는 끝까지 말하면 성공이에요."',
+                    '• "친구 발표에는 칭찬 하나를 꼭 말해줘요."',
+                    '• "오늘의 한 줄: 좋은 입력이 좋은 결과를 만들어요!"'
+                ],
+                k34: [
+                    '• "발표 포인트는 작품 자랑보다 입력 수정 과정 설명이에요."',
+                    '• "피드백 규칙: 칭찬 1개 + 질문 1개. 근거를 붙이면 더 좋아요."',
+                    '• "오늘의 한 줄: AI 성능보다 입력 품질이 결과를 결정한다."'
+                ]
+            }
+        };
+
+        function setGrade(grade) {
+            activeGrade = grade;
+            gradeK12Btn.className = `px-3 py-1.5 rounded-full text-xs font-black ${grade === 'k12' ? 'bg-lime-600 text-white' : 'text-slate-600'}`;
+            gradeK34Btn.className = `px-3 py-1.5 rounded-full text-xs font-black ${grade === 'k34' ? 'bg-lime-600 text-white' : 'text-slate-600'}`;
+            applyGradeComments(activeMissionId);
+        }
+
+        function applyGradeComments(missionId) {
+            const data = gradeComments[missionId];
+            if (!data) return;
+            const heading = Array.from(detailContentEl.querySelectorAll('h5')).find(h => h.textContent.includes('강사 코멘트 스크립트'));
+            if (!heading) return;
+            const block = heading.closest('div');
+            if (!block) return;
+            const lines = data[activeGrade] || data.k34;
+            block.innerHTML = `<h5 class="${heading.className}">강사 코멘트 스크립트 (${activeGrade === 'k12' ? '1~2학년' : '3~4학년'})</h5><ul class="space-y-2 text-slate-700 font-semibold">${lines.map(line => `<li>${line}</li>`).join('')}</ul>`;
+        }
 
         function init() {
             renderMissions();
             updateDetail(activeMissionId);
+            gradeK12Btn.addEventListener('click', () => setGrade('k12'));
+            gradeK34Btn.addEventListener('click', () => setGrade('k34'));
+            setGrade('k34');
         }
 
         function renderMissions() {
@@ -474,6 +577,7 @@
             detailTimeEl.textContent = `${data.time}분`;
             detailContentEl.innerHTML = data.details;
             detailTipTextEl.innerHTML = data.tip;
+            applyGradeComments(id);
             detailContentEl.scrollTop = 0;
         }
 
