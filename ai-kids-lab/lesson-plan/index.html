@@ -12,6 +12,16 @@
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+        }
+
+        #detail-content {
+            font-size: 1.08rem;
+            line-height: 1.75;
+        }
+
+        #detail-content p {
+            color: #334155;
         }
 
         .chart-container {
@@ -99,7 +109,7 @@
         <div class="flex items-center space-x-4">
             <div id="overall-progress"
                 class="bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-black border border-emerald-200 shadow-sm">
-                현재 미션: 1 / 5
+                현재 미션: 1 / 6
             </div>
         </div>
     </header>
@@ -155,7 +165,7 @@
             </div>
 
             <!-- Card Body -->
-            <div class="p-10 flex-1 overflow-y-auto detail-scroll" id="detail-content">
+            <div class="p-8 md:p-10 flex-1 overflow-y-auto detail-scroll" id="detail-content">
                 <!-- JS will populate mission details here -->
             </div>
 
@@ -168,6 +178,14 @@
                         <p id="detail-tip-text" class="text-emerald-800 font-medium leading-relaxed">
                             어려울 때는 손을 번쩍 들어주세요! 선생님이 달려갈게요.
                         </p>
+                        <details class="mt-4 text-sm text-emerald-900/90 bg-white/70 rounded-xl p-3 border border-emerald-200">
+                            <summary class="font-black cursor-pointer">선생님용 돌발 대응 팁</summary>
+                            <ul class="mt-2 list-disc pl-5 space-y-1 font-medium">
+                                <li>생성 지연: "주문이 밀렸대요! 그동안 캐릭터 능력 하나 더 생각해볼까?"</li>
+                                <li>결과 불만족: "실패가 아니라 힌트 추가 기회야. 어떤 힌트를 더 줄까?"</li>
+                                <li>기기 이슈: 2인 1조로 전환해서 입력 담당/아이디어 담당 역할 나누기</li>
+                            </ul>
+                        </details>
                     </div>
                 </div>
             </div>
@@ -196,13 +214,13 @@
                                 <p class="text-lg font-bold">선생님이 들려주는 AI 이야기를 잘 들어보아요.</p>
                             </div>
                             <div class="flex items-center p-6 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
-                                <span class="text-4xl mr-4">🤖</span>
-                                <p class="text-lg font-bold">"제미나이야, 안녕?" 하고 마음속으로 인사해볼까요?</p>
+                                <span class="text-4xl mr-4">🛡️</span>
+                                <p class="text-lg font-bold">약속! 개인정보는 말하지 않기, 이상한 답은 꼭 선생님에게 알려주기.</p>
                             </div>
                         </div>
                     </div>
                 `,
-                tip: '제미나이는 아주 많은 책을 읽은 공부왕 로봇이에요. 무엇이든 물어봐도 좋아요!'
+                tip: '제미나이는 똑똑한 도우미예요. 하지만 가끔 틀릴 수도 있으니 함께 확인해요!'
             },
             {
                 id: 'm2',
@@ -218,19 +236,18 @@
                         <div class="space-y-4">
                             <div class="bg-white border-4 border-emerald-100 p-6 rounded-[2rem]">
                                 <h4 class="font-black text-emerald-700 mb-4 flex items-center"><span class="mr-2">1단계:</span> 로그인하기</h4>
-                                <p class="text-slate-600 font-medium">선생님과 함께 구글 계정에 로그인하고 제미나이 화면을 띄워요.</p>
+                                <p class="text-slate-600 font-medium">선생님과 함께 계정 로그인 후 채팅창을 열어요.</p>
                             </div>
                             <div class="bg-white border-4 border-emerald-100 p-6 rounded-[2rem]">
                                 <h4 class="font-black text-emerald-700 mb-4 flex items-center"><span class="mr-2">2단계:</span> 인사 건네기</h4>
-                                <p class="text-slate-600 font-medium mb-3">아래 문장을 그대로 써보거나, 내 이름을 넣어보세요!</p>
-                                <div class="bg-slate-800 text-emerald-400 p-4 rounded-2xl font-mono text-center text-lg">
+                                <div class="bg-slate-800 text-emerald-300 p-4 rounded-2xl font-mono text-center text-base md:text-lg">
                                     안녕 제미나이! 나는 〇〇이야.
                                 </div>
                             </div>
                         </div>
                     </div>
                 `,
-                tip: '타자가 느려도 괜찮아요! 한 글자 한 글자 천천히 정성을 담아 써보세요.'
+                tip: '타자가 느려도 괜찮아요. 짧게, 천천히, 또박또박 써도 충분해요.'
             },
             {
                 id: 'm3',
@@ -238,90 +255,126 @@
                 title: '상상 속 동물 그리기',
                 time: 20,
                 icon: '🎨',
-                desc: 'AI 화가에게 부탁해요',
+                desc: '입력을 바꾸면 결과가 달라져요',
                 color: 'amber',
                 details: `
                     <div class="space-y-8">
-                        <div class="text-xl text-slate-700 font-bold">세상에 단 하나뿐인 동물을 만들어요!</div>
-                        <div class="p-8 bg-amber-50 rounded-[3rem] border-4 border-amber-100 shadow-inner">
-                            <h4 class="font-black text-amber-800 text-center text-2xl mb-6">어떻게 말하면 좋을까?</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-white p-5 rounded-2xl shadow-sm text-center">
-                                    <span class="text-3xl block mb-2">🦁 + 🦅</span>
-                                    <p class="font-bold">"독수리 날개가 달린 사자를 그려줘!"</p>
-                                </div>
-                                <div class="bg-white p-5 rounded-2xl shadow-sm text-center">
-                                    <span class="text-3xl block mb-2">🐶 + 🌈</span>
-                                    <p class="font-bold">"무지개 털을 가진 강아지를 그려줘!"</p>
-                                </div>
+                        <div class="text-xl text-slate-700 font-bold">같은 AI라도 <span class="text-amber-700">입력값</span>이 다르면 결과가 달라져요!</div>
+
+                        <div class="p-6 bg-amber-50 rounded-3xl border-2 border-amber-200">
+                            <h4 class="font-black text-amber-800 mb-3">프롬프트 공식</h4>
+                            <p class="font-bold text-slate-700">대상 + 특징 + 배경 + 스타일 + 느낌(표정)</p>
+                            <div class="mt-3 bg-white p-4 rounded-2xl border border-amber-100 font-semibold text-slate-700">
+                                "빨간 망토를 입은 토끼 탐험가를, 우주 놀이터 배경에서, 밝은 만화 스타일로 그려줘"
                             </div>
                         </div>
-                        <p class="text-center font-bold text-slate-500">내가 그린 동물을 이따가 게임 주인공으로 쓸 거예요!</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-5 rounded-2xl border-2 border-red-100">
+                                <h5 class="font-black text-red-600 mb-2">추상어(피하기)</h5>
+                                <p class="font-bold text-slate-600">"멋있게 그려줘" "예쁘게 만들어줘"</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl border-2 border-emerald-100">
+                                <h5 class="font-black text-emerald-700 mb-2">구체어(추천)</h5>
+                                <p class="font-bold text-slate-700">"파란 눈, 노란 우비, 비 오는 놀이터"</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-3xl border-2 border-slate-200">
+                            <h5 class="font-black text-slate-800 mb-3">느낌/스타일 단어장</h5>
+                            <p class="font-semibold text-slate-600">반짝반짝한 · 무시무시한 · 따뜻한 · 수채화 같은 · 클레이 점토 같은 · 픽셀 게임 같은</p>
+                        </div>
                     </div>
                 `,
-                tip: '색깔이나 살고 있는 곳(바다, 우주 등)을 같이 말하면 더 멋진 그림이 나와요!'
+                tip: '결과가 마음에 안 들면 실패가 아니에요! 입력 힌트를 한 가지 더 추가하면 돼요.'
             },
             {
                 id: 'm4',
                 step: '04',
+                title: '에너지 충전 타임',
+                time: 5,
+                icon: '⚡',
+                desc: '집중력 리셋',
+                color: 'sky',
+                details: `
+                    <div class="space-y-6 text-center">
+                        <div class="bg-sky-50 p-8 rounded-3xl border-2 border-sky-100">
+                            <h3 class="text-3xl font-black text-sky-800">5분 스트레칭!</h3>
+                            <p class="mt-3 font-bold text-slate-700">눈 쉬기 👀 · 목/어깨 돌리기 🙆 · 물 마시기 💧</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border border-slate-200">
+                            <p class="font-bold text-slate-700">잠깐 쉬면 다음 미션에서 더 좋은 아이디어가 나와요.</p>
+                        </div>
+                    </div>
+                `,
+                tip: '뇌가 쉬는 시간도 수업의 일부예요. 천천히 호흡하고 돌아오면 더 잘돼요!'
+            },
+            {
+                id: 'm5',
+                step: '05',
                 title: '슈퍼 게임 개발자!',
-                time: 40,
+                time: 30,
                 icon: '🕹️',
                 desc: '나만의 게임을 만들어요',
                 color: 'rose',
                 details: `
                     <div class="space-y-6">
                         <div class="bg-rose-50 p-6 rounded-3xl border-2 border-rose-100 text-center">
-                            <span class="text-sm font-black text-rose-500 uppercase tracking-widest">Great Mission</span>
                             <h3 class="text-2xl font-black text-rose-900 mt-1">마법의 게임 만들기!</h3>
                         </div>
                         
                         <div class="grid grid-cols-1 gap-4">
                             <div class="p-6 bg-white rounded-3xl border-2 border-slate-100 shadow-sm">
                                 <h4 class="font-black text-slate-800 mb-2">1. 게임 기획하기</h4>
-                                <p class="text-sm text-slate-500 font-medium">활동지에 [주인공 / 장애물 / 목표]를 적어보세요.</p>
+                                <p class="text-slate-600 font-medium">활동지에 [주인공 / 목표 / 장애물]을 먼저 적어요.</p>
                             </div>
                             <div class="p-6 bg-white rounded-3xl border-2 border-slate-100 shadow-sm">
-                                <h4 class="font-black text-slate-800 mb-2">2. AI에게 시키기</h4>
-                                <p class="text-sm text-slate-500 font-medium mb-3">제미나이에게 마법의 주문을 걸어보세요!</p>
-                                <div class="bg-slate-100 p-3 rounded-xl font-bold text-slate-600 text-center">
-                                    "~하는 게임을 만들어줘!"
+                                <h4 class="font-black text-slate-800 mb-2">2. 빈칸 프롬프트 복붙</h4>
+                                <div class="bg-slate-100 p-4 rounded-xl font-bold text-slate-700 text-sm md:text-base leading-relaxed">
+                                    나는 [   ] 게임을 만들 거야.<br>
+                                    목표는 [   ]이야.<br>
+                                    초등학생이 지킬 규칙 3개를 번호로 써줘.
                                 </div>
                             </div>
                             <div class="p-6 bg-white rounded-3xl border-2 border-slate-100 shadow-sm">
-                                <h4 class="font-black text-slate-800 mb-2">3. 게임 플레이!</h4>
-                                <p class="text-sm text-slate-500 font-medium">오른쪽 화면에 나타난 게임을 직접 해보세요.</p>
+                                <h4 class="font-black text-slate-800 mb-2">3. 실행 & 수정</h4>
+                                <p class="text-slate-600 font-medium">어렵거나 이상하면 "더 쉽게", "다시 고쳐줘"를 추가해요.</p>
                             </div>
                         </div>
                     </div>
                 `,
-                tip: '게임이 안 된다고요? "제미나이, 다시 고쳐줘!"라고 당당하게 말해보세요.'
+                tip: '게임이 안 되면 괜찮아요. 실패가 아니라 디버그 미션 시작이에요!'
             },
             {
-                id: 'm5',
-                step: '05',
+                id: 'm6',
+                step: '06',
                 title: '우리의 약속 & 자랑하기',
-                time: 10,
+                time: 15,
                 icon: '🏆',
                 desc: '멋진 마법사가 되었어요',
                 color: 'purple',
                 details: `
                     <div class="space-y-8 text-center">
-                        <div class="py-10">
+                        <div class="py-6">
                             <span class="text-7xl">🎉</span>
-                            <h3 class="text-3xl font-black text-purple-900 mt-6">미션 완료! 축하합니다!</h3>
+                            <h3 class="text-3xl font-black text-purple-900 mt-4">미션 완료! 축하합니다!</h3>
                         </div>
-                        <div class="bg-purple-50 p-8 rounded-[3rem] border-4 border-purple-100">
+                        <div class="bg-purple-50 p-6 rounded-3xl border-2 border-purple-100">
                             <h4 class="font-black text-purple-800 mb-4">멋진 AI 마법사의 약속</h4>
-                            <ul class="text-left space-y-3 font-bold text-slate-700 max-w-xs mx-auto">
+                            <ul class="text-left space-y-2 font-bold text-slate-700 max-w-md mx-auto">
                                 <li>✨ 예의 바르고 고운 말 쓰기</li>
                                 <li>✨ 알려준 정보가 진짜인지 생각하기</li>
                                 <li>✨ 나쁜 게임은 만들지 않기</li>
                             </ul>
                         </div>
+                        <div class="bg-white p-6 rounded-3xl border-2 border-emerald-100 text-left max-w-2xl mx-auto">
+                            <h5 class="font-black text-emerald-700 mb-2">입력-결과 회고</h5>
+                            <p class="font-semibold text-slate-700">내가 바꾼 입력 1개: ________</p>
+                            <p class="font-semibold text-slate-700">그때 달라진 결과 1개: ________</p>
+                        </div>
                     </div>
                 `,
-                tip: '옆 친구의 게임도 구경해볼까요? "와! 정말 멋지다!" 하고 칭찬해줘요.'
+                tip: '오늘의 핵심: 좋은 결과는 좋은 입력에서 시작해요. 너는 이미 AI 조종사야!'
             }
         ];
 
@@ -373,7 +426,7 @@
             updateDetail(id);
 
             const idx = studentMissions.findIndex(m => m.id === id);
-            overallProgressEl.textContent = `현재 미션: ${idx + 1} / 5`;
+            overallProgressEl.textContent = `현재 미션: ${idx + 1} / ${studentMissions.length}`;
         }
 
         function updateDetail(id) {
@@ -395,7 +448,7 @@
                     labels: studentMissions.map(m => m.title),
                     datasets: [{
                         data: studentMissions.map(m => m.time),
-                        backgroundColor: ['#d9f99d', '#a7f3d0', '#fde68a', '#fecdd3', '#e9d5ff'],
+                        backgroundColor: ['#d9f99d', '#a7f3d0', '#fde68a', '#bae6fd', '#fecdd3', '#e9d5ff'],
                         borderWidth: 0
                     }]
                 },
