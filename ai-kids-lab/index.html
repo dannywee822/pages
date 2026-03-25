@@ -23,9 +23,18 @@
     .hero-blob.b2{ width:110px; height:110px; background:#34d399; bottom:8%; left:4%; animation-delay: -3s; }
     @keyframes floaty { 0%,100%{ transform: translateY(0px);} 50%{ transform: translateY(-10px);} }
 
+    
+    .mobile-cta { position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; background: rgba(255,255,255,.96); backdrop-filter: blur(6px); border-top: 1px solid #d9f99d; padding: .7rem 1rem calc(.7rem + env(safe-area-inset-bottom)); }
+    .mobile-cta a { display:block; text-align:center; background:#65a30d; color:#fff; border-radius:9999px; padding:.9rem 1rem; font-weight:900; }
+    .mobile-cta p { text-align:center; margin-top:.35rem; font-size:.74rem; color:#4d7c0f; font-weight:700; }
+
     @media (max-width: 640px) {
       body { font-size: 16px; }
       .btn-lg { width: 100%; }
+      .mobile-cta { display:block; }
+    }
+    @media (min-width: 641px) {
+      .mobile-cta { display:none; }
     }
   </style>
 </head>
@@ -43,7 +52,7 @@
       </div>
       <div class="flex items-center gap-2">
         <a href="/pages/ai-kids-lab/mission-board/" class="inline-flex items-center rounded-full border border-lime-300 bg-white px-4 py-2.5 text-lime-700 text-sm font-extrabold hover:bg-lime-50 transition-all duration-300">학생용 미션보드</a>
-        <a href="https://forms.gle/HLnzJW6E6Ub4MJpM6" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded-full bg-lime-600 px-5 py-3 text-white text-base font-bold hover:bg-lime-700 transition-all duration-300 hover:-translate-y-0.5">지금 신청하기</a>
+        <a href="https://forms.gle/HLnzJW6E6Ub4MJpM6" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded-full bg-lime-600 px-5 py-3 text-white text-base font-bold hover:bg-lime-700 transition-all duration-300 hover:-translate-y-0.5">3월 28일 체험 신청</a>
       </div>
     </div>
   </nav>
@@ -98,6 +107,7 @@
           <h3 class="font-extrabold mb-2">안전한 첫 경험</h3>
           <p class="text-sm text-slate-600">연령에 맞는 주제와 가이드를 적용해 AI를 건강하게 경험합니다.</p>
         </div>
+
       </div>
     </div>
   </section>
@@ -136,6 +146,25 @@
     </div>
   </section>
 
+
+
+  <section id="trust" class="py-16 px-4">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-6 sm:gap-8">
+      <div class="bg-white rounded-3xl border border-lime-100 p-6 sm:p-8 shadow-sm soft-card reveal">
+        <h3 class="text-2xl font-black mb-4">강사 소개</h3>
+        <p class="text-slate-700 leading-7">현 글로벌 빅테크 소속 18년 경력 엔지니어</p>
+      </div>
+      <div class="bg-white rounded-3xl border border-lime-100 p-6 sm:p-8 shadow-sm soft-card reveal">
+        <h3 class="text-2xl font-black mb-4">안전·개인정보 안내</h3>
+        <ul class="space-y-2.5 text-[15px] sm:text-sm leading-7 text-slate-700">
+          <li>• 연령 적합 주제와 안전 가이드로 수업을 진행합니다.</li>
+          <li>• 학생·보호자 정보는 수업 운영 목적 범위에서 최소한으로 수집합니다.</li>
+          <li>• 법령상 보관기간 종료 또는 목적 달성 시 지체 없이 파기합니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <section id="faq" class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-black text-center mb-10">자주 묻는 질문</h2>
@@ -152,6 +181,18 @@
           <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">안전하게 운영되나요? <span>▼</span></button>
           <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">연령 적합 주제, 지도자 모니터링, 안전 사용 가이드를 기반으로 수업을 운영합니다.</div>
         </div>
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden soft-card reveal">
+          <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">결석/환불 규정은 어떻게 되나요? <span>▼</span></button>
+          <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">결석 및 환불 관련 세부 기준은 신청 링크 내 안내문을 기준으로 운영하며, 문의 시 개별 안내드립니다.</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden soft-card reveal">
+          <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">주차 및 픽업은 가능한가요? <span>▼</span></button>
+          <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">현장 여건에 따라 주차 가능 여부가 달라질 수 있어요. 보호자 픽업을 권장하며, 자세한 내용은 사전 문자로 안내드립니다.</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden soft-card reveal">
+          <button class="faq-btn w-full text-left p-5 font-bold flex justify-between items-center" aria-expanded="false">형제/자매 동반 참여가 가능한가요? <span>▼</span></button>
+          <div class="faq-panel hidden px-5 pb-5 text-sm text-slate-600">가능합니다. 다만 정원 운영을 위해 각각 신청서를 작성해 주세요.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -160,9 +201,10 @@
     <div class="max-w-4xl mx-auto bg-lime-600 text-white rounded-3xl p-10 text-center soft-card reveal">
       <p class="font-bold text-lime-100 mb-2">3월 28일(토) 오전 10:00 ~ 11:40</p>
       <h2 class="text-3xl md:text-4xl font-black mb-2">3월 preview 무료 진행</h2>
+      <p class="text-sm text-lime-100 mb-4">신청 소요시간 약 1분 · 선착순 마감</p>
       <div class="flex flex-col sm:flex-row justify-center gap-3">
         <a href="/pages/ai-kids-lab/mission-board/" class="btn-lg bg-white text-lime-700">학생용 미션보드</a>
-        <a href="https://forms.gle/HLnzJW6E6Ub4MJpM6" target="_blank" rel="noopener noreferrer" class="btn-lg bg-white text-lime-700">신청 링크 열기</a>
+        <a href="https://forms.gle/HLnzJW6E6Ub4MJpM6" target="_blank" rel="noopener noreferrer" class="btn-lg bg-white text-lime-700">3월 28일 체험 신청</a>
         <a href="tel:01028715586" class="btn-lg bg-lime-700 text-white">전화 문의하기</a>
       </div>
       <div class="mt-4 flex flex-col sm:flex-row justify-center gap-3">
@@ -171,6 +213,12 @@
       </div>
     </div>
   </section>
+
+
+  <div class="mobile-cta">
+    <a href="https://forms.gle/HLnzJW6E6Ub4MJpM6" target="_blank" rel="noopener noreferrer">3월 28일 체험 신청하기</a>
+    <p>신청 소요시간 약 1분 · 선착순 마감</p>
+  </div>
 
   <footer class="py-10 text-center text-sm text-slate-500">
     © 2026 Aino Kids Lab. All rights reserved.
