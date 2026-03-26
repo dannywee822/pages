@@ -145,7 +145,7 @@
         <a href="#sec-1" class="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">1) PSA 주의사항</a>
         <a href="#sec-3" class="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">3) NIC 사용성</a>
         <a href="#sec-7" class="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">7) PSA vs PSC 비교표</a>
-        <a href="#sec-8" class="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">8) attachment vs policy</a>
+        <a href="#sec-8" class="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">8) attachment 3자 비교</a>
         <a href="#sec-9" class="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">9) Prefix / Range 표</a>
         <a href="#sec-10" class="rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">10) 짧은 메모</a>
       </div>
@@ -180,9 +180,20 @@
       <h2 class="text-2xl font-extrabold mb-4">3) Network Intelligence Center 사용성</h2>
       <p class="lead-text">`PSA가 붙은 서비스가 NIC에 보이지 않는다`는 현상은 일부 정상 동작입니다. Network Topology는 Google-managed services 연결을 보여주지만, Cloud SQL, Filestore, Memorystore 등 일부 서비스 트래픽은 표시되지 않을 수 있습니다.</p>
       <p class="mt-4 lead-text">Connectivity Tests도 Google-owned project 내부 세부 hop 대신 overall reachability 중심으로 보여줍니다. 따라서 PSA 점검은 Topology 단일 화면만 보지 말고 Connectivity Tests, PSA utilization, route 확인을 함께 수행하는 것이 안전합니다.</p>
+      <div class="mt-6 rounded-2xl border border-sky-200 bg-sky-50 p-5">
+        <p class="text-sm font-extrabold text-sky-900">NIC에서 실무적으로 더 유용한 포인트: IP Utilization Analyzer 계열 insight</p>
+        <p class="mt-2 text-sm leading-7 text-slate-700">공식 명칭은 Network Analyzer의 `Private services access IP address utilization summary`입니다. Topology에 서비스가 잘 안 보여도, 여기서는 PSA range와 PSA subnet 기준으로 실제 사용 현황을 더 직접적으로 볼 수 있습니다.</p>
+        <ul class="mt-3 space-y-2 text-sm leading-7 text-slate-700">
+          <li>1. `PSA range prefix`, `PSA subnet prefix`, `PSA subnet region`, `PSA subnet service`, `allocation ratio`를 확인해 어떤 서비스가 어떤 대역을 얼마나 쓰는지 봅니다.</li>
+          <li>2. Shared VPC라면 host project에서 이 insight를 확인합니다.</li>
+          <li>3. `allocation ratio`가 50%를 넘기기 시작하면 allocated range 추가를 조기에 검토하는 것이 공식 권장입니다.</li>
+          <li>4. `PSA subnet service` 이름 필드는 AlloyDB, Apigee, Cloud Build, Cloud SQL, Memorystore for Memcached, Memorystore for Redis, Vertex AI managed notebooks에서 채워집니다.</li>
+        </ul>
+      </div>
       <div class="source-links">
         <a href="https://cloud.google.com/network-intelligence-center/docs/network-topology/concepts/overview">Network Topology overview</a>
         <a href="https://cloud.google.com/network-intelligence-center/docs/connectivity-tests/concepts/overview">Connectivity Tests overview</a>
+        <a href="https://cloud.google.com/network-intelligence-center/docs/network-analyzer/insights/vpc-network/ip-utilization">IP address utilization insights</a>
         <a href="https://cloud.google.com/vpc/docs/configure-private-services-access">Configure private services access</a>
       </div>
     </section>
@@ -289,14 +300,15 @@
     </section>
 
     <section id="sec-8" class="section-card rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
-      <h2 class="text-2xl font-extrabold mb-4">8) network attachment vs service connection policy 비교표</h2>
-      <p class="lead-text">둘을 같은 개념으로 보는 경우가 많아서 별도 표로 분리해 두는 편이 이해하기 쉽습니다.</p>
+      <h2 class="text-2xl font-extrabold mb-4">8) network attachment vs service attachment vs service connection policy 비교표</h2>
+      <p class="lead-text">셋 다 PSC 문맥에서 자주 같이 언급되지만, 위치와 역할이 다릅니다. `service attachment`는 published service의 producer 측 리소스, `network attachment`는 PSC interface의 consumer 측 리소스, `service connection policy`는 managed service의 endpoint 자동 생성 정책으로 보면 정리가 쉽습니다.</p>
       <div class="table-wrap mt-6">
         <table class="guide-table">
           <thead>
             <tr>
               <th>항목</th>
               <th>network attachment</th>
+              <th>service attachment</th>
               <th>service connection policy</th>
             </tr>
           </thead>
@@ -304,38 +316,59 @@
             <tr>
               <td><strong>역할</strong></td>
               <td>PSC interface의 consumer 측 연결점</td>
+              <td>published service를 외부 VPC에 노출하는 producer 측 리소스</td>
               <td>지원되는 managed service가 PSC endpoint를 자동 생성하도록 하는 정책</td>
             </tr>
             <tr>
               <td><strong>주 사용 시나리오</strong></td>
               <td>producer가 consumer VPC로 outbound 연결해야 할 때</td>
+              <td>consumer가 producer의 published service에 endpoint 또는 backend로 접근할 때</td>
               <td>Cloud SQL 같은 managed service가 consumer VPC 안에 endpoint를 자동 만들 때</td>
             </tr>
             <tr>
               <td><strong>연결 방향</strong></td>
               <td>producer to consumer</td>
+              <td>consumer to producer</td>
               <td>managed service to consumer endpoint automation</td>
             </tr>
             <tr>
               <td><strong>IP 할당 원천</strong></td>
               <td>attachment에 연결된 subnet에서 interface IP 할당</td>
+              <td>producer VPC의 NAT subnet을 사용하고, consumer는 endpoint 또는 backend를 service attachment에 연결</td>
               <td>policy에 지정한 subnet에서 auto-created endpoint IP 할당</td>
             </tr>
             <tr>
               <td><strong>승인 방식</strong></td>
               <td>ACCEPT_AUTOMATIC, ACCEPT_MANUAL, accept or reject list</td>
+              <td>connection preference와 consumer accept or reject list로 inbound consumer를 제어</td>
               <td>network, region, service class당 1개 정책, optional connection limit</td>
+            </tr>
+            <tr>
+              <td><strong>대표 연결 대상</strong></td>
+              <td>PSC interface</td>
+              <td>PSC endpoint, PSC backend</td>
+              <td>자동 생성되는 PSC endpoint</td>
+            </tr>
+            <tr>
+              <td><strong>트래픽 성격</strong></td>
+              <td>bi-directional이며 transitive</td>
+              <td>service-oriented ingress, producer 서비스 단위 접근</td>
+              <td>endpoint provisioning automation, 데이터 플레인 자체는 endpoint 성격을 따름</td>
             </tr>
             <tr>
               <td><strong>관계</strong></td>
               <td>interface 연결용 리소스</td>
+              <td>published service 노출용 리소스</td>
               <td>endpoint 자동화용 정책</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="source-links">
+        <a href="https://cloud.google.com/vpc/docs/about-network-attachments">About network attachments</a>
+        <a href="https://cloud.google.com/vpc/docs/about-vpc-hosted-services">About published services</a>
         <a href="https://cloud.google.com/vpc/docs/private-service-connect">Private Service Connect</a>
+        <a href="https://cloud.google.com/vpc/docs/private-service-connect-security">Private Service Connect security</a>
         <a href="https://cloud.google.com/vpc/docs/about-service-connection-policies">About service connection policies</a>
         <a href="https://cloud.google.com/sql/docs/sqlserver/configure-private-service-connect">Cloud SQL Private Service Connect</a>
       </div>
