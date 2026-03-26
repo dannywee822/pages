@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PSA / PSC 가이드 노트</title>
+  <meta name="description" content="Google Cloud PSA/PSC 구성 시 주의사항, 동작 특성, 베스트 프랙티스를 정리한 문서" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 py-10">
+      <p class="text-sm font-bold text-indigo-600 mb-2">Google Cloud Networking Note</p>
+      <h1 class="text-3xl sm:text-4xl font-black leading-tight">PSA / PSC 구성 시 꼭 알아둘 핵심 포인트</h1>
+      <p class="mt-4 text-slate-600">Private Services Access(PSA)와 Private Service Connect(PSC) 관련 실무 관점 요약</p>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-10 space-y-6">
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">1) PSA 구성 시 주의사항</h2>
+      <p class="leading-8 text-slate-700">PSA는 내부적으로 VPC Peering 기반이므로 비전이성(non-transitive) 제약을 그대로 받습니다. allocated range는 현재/미래 subnet, peered VPC, NCC spoke, custom static/dynamic route와 겹치지 않게 설계해야 합니다. Google 서비스 기준 최소 /24, 권장은 /16입니다. 또한 서비스 producer subnet은 소비자 쪽에서 직접 고를 수 없으며, 기존 allocated range를 잘못 축소/삭제하면 신규 subnet 생성이 막힐 수 있습니다.</p>
+      <p class="mt-4 text-sm text-slate-500">Sources: Configure private services access, Cloud SQL private IP</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">2) PSA cache 메커니즘 (TTL, 재할당 패턴)</h2>
+      <p class="leading-8 text-slate-700">공식 문서에는 조정 가능한 "PSA cache TTL" 값이 공개되어 있지 않습니다. 문서상 동작은 캐시라기보다 producer subnet lifecycle에 가깝습니다. 기존 리소스는 기존 range/subnet을 계속 사용하고, 새 range를 추가해도 신규 subnet/리소스부터 반영됩니다. old peering route가 잔존할 수 있으며, 예시로 Cloud SQL은 리소스 완전 삭제까지 최대 4일이 걸릴 수 있습니다. 즉 TTL보다 비동기 정리 지연으로 이해하는 것이 정확합니다.</p>
+      <p class="mt-4 text-sm text-slate-500">Sources: Configure private services access, Cloud SQL private IP</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">3) Network Intelligence Center 사용성</h2>
+      <p class="leading-8 text-slate-700">"PSA가 붙은 서비스가 NIC에 보이지 않는다"는 현상은 일부 정상 동작입니다. Network Topology는 Google-managed services 연결을 보여주지만, Cloud SQL·Filestore·Memorystore 등 일부 서비스 트래픽은 표시되지 않을 수 있습니다. Connectivity Tests도 Google-owned project 내부 세부 hop 대신 overall reachability 중심으로 보여줍니다. 따라서 PSA 점검은 Topology 단일 화면이 아니라 Connectivity Tests + PSA utilization + route 확인을 함께 수행하는 것이 안전합니다.</p>
+      <p class="mt-4 text-sm text-slate-500">Sources: Network Topology overview, Connectivity Tests overview, Configure private services access</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">4) PSA 서비스별 Prefix IP range</h2>
+      <p class="leading-8 text-slate-700">"PSA는 무조건 /24"가 아닙니다. 서비스별로 요구가 다릅니다. 다만 Google 공통 allocated range 권장은 최소 /24, 보통 /16입니다. 예를 들어 Cloud SQL은 리전별 /24 단위를 사용하며, Memorystore for Memcached는 PSA allocated range를 /24 이상으로 권장합니다. 핵심은 소비자가 잡는 allocated range 크기와 서비스가 내부적으로 소비하는 subnet 크기를 구분하는 것입니다.</p>
+      <p class="mt-4 text-sm text-slate-500">Sources: Configure private services access, Cloud SQL private IP, Memorystore for Memcached PSA</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">5) PSA vs PSC Best Practice</h2>
+      <p class="leading-8 text-slate-700">(일부 추론 포함) 단일 VPC에서 Google-managed VPC-hosted service를 private IP로 연결하는 기본 패턴은 PSA가 단순합니다. 반면 다중 VPC/프로젝트/조직 소비, endpoint 단위 통제, producer-consumer 분리, Google APIs 또는 published service 접근이 필요하면 PSC가 더 적합합니다. Cloud SQL처럼 PSA와 PSC를 함께 쓰는 혼합 패턴도 가능합니다.</p>
+      <p class="mt-4 text-sm text-slate-500">Sources: Private access options for services, Private Service Connect, Cloud SQL Private Service Connect</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">6) PSC의 network attachment vs service connection policy</h2>
+      <p class="leading-8 text-slate-700">둘은 모두 PSC 계열이지만 역할이 다릅니다. network attachment는 PSC interface용 리소스로, producer가 consumer VPC subnet에서 IP를 받아 연결되는 구조이며 connection preference(ACCEPT_AUTOMATIC / ACCEPT_MANUAL)가 attachment 승인 정책입니다. 반면 service connection policy는 지원되는 managed service가 consumer VPC 안에 PSC endpoint를 자동 생성하도록 돕는 자동화 정책입니다. 즉 attachment = interface 연결, policy = endpoint 자동 생성으로 구분하는 것이 적절합니다.</p>
+      <p class="mt-4 text-sm text-slate-500">Sources: Private Service Connect, About service connection policies, Cloud SQL Private Service Connect</p>
+    </section>
+  </main>
+
+  <footer class="max-w-5xl mx-auto px-4 pb-10 text-sm text-slate-500">
+    PSA/PSC 참고 노트 · Published via GitHub Pages
+  </footer>
+</body>
+</html>
