@@ -23,6 +23,11 @@
   </header>
 
   <main class="max-w-5xl mx-auto px-4 py-10 space-y-6">
+    <section class="bg-indigo-50 border border-indigo-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-3">공식 문서 기준 메모</h2>
+      <p class="leading-8 text-slate-700">아래 비교표와 서비스별 range 표는 2026-03-26 기준 Google Cloud 공식 문서를 바탕으로 정리한 참고 자료입니다. 일부 서비스는 제품/티어별 요구 조건이 달라질 수 있으므로 실제 설계 전에는 해당 서비스 문서를 다시 확인하는 것이 안전합니다.</p>
+    </section>
+
     <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
       <h2 class="text-2xl font-extrabold mb-4">1) PSA 구성 시 주의사항</h2>
       <p class="leading-8 text-slate-700">PSA는 내부적으로 VPC Peering 기반이므로 비전이성(non-transitive) 제약을 그대로 받습니다. allocated range는 현재/미래 subnet, peered VPC, NCC spoke, custom static/dynamic route와 겹치지 않게 설계해야 합니다. Google 서비스 기준 최소 /24, 권장은 /16입니다. 또한 서비스 producer subnet은 소비자 쪽에서 직접 고를 수 없으며, 기존 allocated range를 잘못 축소/삭제하면 신규 subnet 생성이 막힐 수 있습니다.</p>
@@ -57,6 +62,181 @@
       <h2 class="text-2xl font-extrabold mb-4">6) PSC의 network attachment vs service connection policy</h2>
       <p class="leading-8 text-slate-700">둘은 모두 PSC 계열이지만 역할이 다릅니다. network attachment는 PSC interface용 리소스로, producer가 consumer VPC subnet에서 IP를 받아 연결되는 구조이며 connection preference(ACCEPT_AUTOMATIC / ACCEPT_MANUAL)가 attachment 승인 정책입니다. 반면 service connection policy는 지원되는 managed service가 consumer VPC 안에 PSC endpoint를 자동 생성하도록 돕는 자동화 정책입니다. 즉 attachment = interface 연결, policy = endpoint 자동 생성으로 구분하는 것이 적절합니다.</p>
       <p class="mt-4 text-sm text-slate-500">Sources: Private Service Connect, About service connection policies, Cloud SQL Private Service Connect</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">7) PSA vs PSC 비교표</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left text-slate-700">
+          <thead>
+            <tr class="border-b border-slate-200">
+              <th class="py-3 pr-4 font-extrabold text-slate-900">항목</th>
+              <th class="py-3 pr-4 font-extrabold text-slate-900">PSA</th>
+              <th class="py-3 font-extrabold text-slate-900">PSC</th>
+            </tr>
+          </thead>
+          <tbody class="align-top">
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">기본 모델</td>
+              <td class="py-3 pr-4">소비자 VPC와 서비스 제공자 VPC를 VPC Peering으로 연결</td>
+              <td class="py-3">서비스 단위로 private endpoint, interface, backend를 연결</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">접근 단위</td>
+              <td class="py-3 pr-4">네트워크 지향</td>
+              <td class="py-3">서비스 지향</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">IP 계획</td>
+              <td class="py-3 pr-4">producer용 allocated range를 미리 예약해야 함</td>
+              <td class="py-3">일반적으로 peering용 대역 사전 예약 부담이 더 작음</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">트랜지티브</td>
+              <td class="py-3 pr-4">안 됨</td>
+              <td class="py-3">endpoint는 서비스 단위, PSC interface는 transitive</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">통제 방식</td>
+              <td class="py-3 pr-4">peering 기반 제약을 그대로 받음</td>
+              <td class="py-3">명시적 authorization과 서비스 단위 제어에 유리</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">멀티 VPC</td>
+              <td class="py-3 pr-4">구조가 커질수록 운영 복잡도 증가</td>
+              <td class="py-3">멀티 VPC, shared services, producer-consumer 분리에 유리</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">Google APIs 접근</td>
+              <td class="py-3 pr-4">대상이 아님</td>
+              <td class="py-3">가능</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">대표 사용처</td>
+              <td class="py-3 pr-4">Cloud SQL, AlloyDB, Filestore, Redis 같은 VPC-hosted managed service의 전통적 private access</td>
+              <td class="py-3">Google APIs, published services, multi-consumer 서비스, endpoint 기반 설계</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-slate-900">추천 기준</td>
+              <td class="py-3 pr-4">단일 VPC에서 단순 private IP 연결이 중요할 때</td>
+              <td class="py-3">멀티 VPC, 명시적 endpoint, 서비스 단위 통제가 중요할 때</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-slate-500">Sources: Private access options for services, Configure private services access, Private Service Connect</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">8) network attachment vs service connection policy 비교표</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left text-slate-700">
+          <thead>
+            <tr class="border-b border-slate-200">
+              <th class="py-3 pr-4 font-extrabold text-slate-900">항목</th>
+              <th class="py-3 pr-4 font-extrabold text-slate-900">network attachment</th>
+              <th class="py-3 font-extrabold text-slate-900">service connection policy</th>
+            </tr>
+          </thead>
+          <tbody class="align-top">
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">역할</td>
+              <td class="py-3 pr-4">PSC interface의 consumer 측 연결점</td>
+              <td class="py-3">지원되는 managed service가 PSC endpoint를 자동 생성하도록 하는 정책</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">주 사용 시나리오</td>
+              <td class="py-3 pr-4">producer가 consumer VPC로 outbound 연결해야 할 때</td>
+              <td class="py-3">Cloud SQL 같은 managed service가 consumer VPC 안에 endpoint를 자동 만들 때</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">연결 방향</td>
+              <td class="py-3 pr-4">producer to consumer</td>
+              <td class="py-3">managed service to consumer endpoint automation</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">IP 할당 원천</td>
+              <td class="py-3 pr-4">attachment에 연결된 subnet에서 interface IP 할당</td>
+              <td class="py-3">policy에 지정한 subnet에서 auto-created endpoint IP 할당</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">승인 방식</td>
+              <td class="py-3 pr-4">ACCEPT_AUTOMATIC, ACCEPT_MANUAL, accept/reject list</td>
+              <td class="py-3">network, region, service class당 1개 정책, optional connection limit</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-slate-900">관계</td>
+              <td class="py-3 pr-4">interface 연결용 리소스</td>
+              <td class="py-3">endpoint 자동화용 정책</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-slate-500">Sources: Private Service Connect, About service connection policies, Cloud SQL Private Service Connect</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">9) 서비스별 Prefix / Range 참고표</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left text-slate-700">
+          <thead>
+            <tr class="border-b border-slate-200">
+              <th class="py-3 pr-4 font-extrabold text-slate-900">서비스</th>
+              <th class="py-3 pr-4 font-extrabold text-slate-900">문서상 확인된 range 또는 prefix</th>
+              <th class="py-3 font-extrabold text-slate-900">메모</th>
+            </tr>
+          </thead>
+          <tbody class="align-top">
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">Google 공통 가이드</td>
+              <td class="py-3 pr-4">allocated range 최소 /24, 권장 /16</td>
+              <td class="py-3">PSA 설계 기본 기준</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">Cloud SQL</td>
+              <td class="py-3 pr-4">리전별 /24 사용</td>
+              <td class="py-3">멀티리전이면 리전마다 별도 /24 필요</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">AlloyDB</td>
+              <td class="py-3 pr-4">리전별 /24 사용, 최소 /24, 권장 /16</td>
+              <td class="py-3">subnet이 차면 같은 리전에 추가 /24 생성</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">Memorystore for Redis</td>
+              <td class="py-3 pr-4">PSA 연결용 allocated range는 /24 이상</td>
+              <td class="py-3">문서는 per-instance 고정값보다 allocated range 기준 설명 중심</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">Redis read replicas</td>
+              <td class="py-3 pr-4">추가 secondary range는 /28 필요</td>
+              <td class="py-3">read replica용 추가 요구사항</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">Memorystore for Memcached</td>
+              <td class="py-3 pr-4">권장 /24 이상, 서비스 최소 /26</td>
+              <td class="py-3">다른 managed service와 함께 쓰면 /24 이상 권장</td>
+            </tr>
+            <tr class="border-b border-slate-100">
+              <td class="py-3 pr-4 font-bold text-slate-900">Filestore</td>
+              <td class="py-3 pr-4">Basic tier /29, 일부 zonal, regional, enterprise 계열 /26</td>
+              <td class="py-3">여러 인스턴스 또는 타 서비스와 공유 시 더 큰 allocated range 필요</td>
+            </tr>
+            <tr>
+              <td class="py-3 pr-4 font-bold text-slate-900">Cloud Build private pools</td>
+              <td class="py-3 pr-4">private connection range는 /24 또는 그보다 큰 대역</td>
+              <td class="py-3">기본 /24, 특정 overlap 회피 권장</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-slate-500">Sources: Configure private services access, Cloud SQL private IP, AlloyDB PSA, Memorystore for Redis networking, Memorystore for Memcached PSA, Filestore Shared VPC and PSA, Cloud Build private pools in VPC</p>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold mb-4">10) 짧은 메모</h2>
+      <p class="leading-8 text-slate-700">PSA cache의 공식 TTL 값은 문서에서 확인되지 않았고, 실제 운영상으로는 TTL보다 비동기 정리 지연을 더 중요하게 보는 편이 맞습니다. 또한 Network Topology는 Cloud SQL, Filestore, Memorystore 같은 일부 Google-managed service 트래픽을 표시하지 않을 수 있으므로, Topology만으로 PSA 상태를 단정하지 않는 것이 안전합니다.</p>
+      <p class="mt-4 text-sm text-slate-500">Sources: Configure private services access, Network Topology overview, Connectivity Tests overview</p>
     </section>
   </main>
 
