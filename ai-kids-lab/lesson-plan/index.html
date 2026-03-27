@@ -107,7 +107,7 @@
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 
-<body class="bg-lime-50 text-slate-800 antialiased h-screen overflow-hidden flex flex-col">
+<body class="bg-lime-50 text-slate-800 antialiased min-h-screen overflow-x-hidden flex flex-col">
 
     <!-- Top Banner -->
     <header
@@ -140,11 +140,11 @@
     </section>
 
     <!-- Main Board -->
-    <div class="flex-1 overflow-hidden p-4 md:p-6 flex flex-col md:flex-row gap-6 max-w-7xl mx-auto w-full">
+    <div class="flex-1 p-4 md:p-6 flex flex-col md:flex-row gap-6 max-w-7xl mx-auto w-full">
 
         <!-- Left Sidebar: Mission List -->
         <aside
-            class="w-full md:w-5/12 lg:w-4/12 flex flex-col gap-6 shrink-0 h-full overflow-y-auto detail-scroll pr-2 relative">
+            class="w-full md:w-5/12 lg:w-4/12 flex flex-col gap-6 shrink-0 md:h-full overflow-y-auto detail-scroll pr-2 relative">
 
             <div class="bg-white rounded-3xl p-6 border border-lime-200 shadow-sm relative overflow-hidden">
                 <h2 class="text-lg font-black text-lime-900 mb-4 flex items-center">
@@ -160,7 +160,7 @@
 
         <!-- Right Panel: Mission Detail Card -->
         <main
-            class="w-full md:w-7/12 lg:w-8/12 bg-white rounded-[2.5rem] border-4 border-lime-100 shadow-xl flex flex-col h-full overflow-hidden">
+            class="w-full md:w-7/12 lg:w-8/12 bg-white rounded-[2.5rem] border-4 border-lime-100 shadow-xl flex flex-col md:h-full overflow-hidden">
             <!-- Card Header -->
             <div
                 class="bg-lime-50/50 border-b-2 border-lime-100 p-8 flex flex-col sm:flex-row justify-between items-center shrink-0">
