@@ -4,60 +4,102 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI 시대 부모 인사이트 카드뉴스</title>
-  <meta name="description" content="부모 대상 AI 학습 인식 데이터 카드뉴스" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <meta name="description" content="부모와 아이가 함께 준비하는 AI 시대 인사이트 카드뉴스" />
   <style>
-    body { font-family: "Pretendard", "Noto Sans KR", sans-serif; }
-    .bg-soft { background: radial-gradient(circle at 10% 10%, #dbeafe, #eef2ff 35%, #f8fafc 100%); }
-    .card { box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12); }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f3f4f6;
+      color: #111;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 28px 16px 60px; }
+    .card {
+      background: #fff;
+      border: 3px solid #111;
+      border-radius: 4px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 8px 8px 0 #111;
+    }
+    .tag {
+      display: inline-block;
+      border: 2px solid #111;
+      border-radius: 2px;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 6px 10px;
+      margin-bottom: 10px;
+      letter-spacing: .03em;
+    }
+    h1,h2 { margin: 0; line-height: 1.25; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(28px, 5.6vw, 44px); }
+    h2 { font-size: clamp(24px, 5.2vw, 38px); }
+    p { margin: 10px 0 0; line-height: 1.65; font-size: clamp(15px, 2.7vw, 20px); }
+    .num {
+      border: 3px solid #111;
+      border-radius: 2px;
+      padding: 12px 18px;
+      margin-top: 14px;
+      display: inline-block;
+      font-weight: 900;
+      font-size: clamp(42px, 12vw, 92px);
+      line-height: 1;
+    }
+    .download {
+      margin-top: 26px;
+      background:#fff;
+      border: 2px solid #111;
+      border-radius: 3px;
+      padding: 14px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .download a { color:#111; font-weight: 800; }
   </style>
 </head>
-<body class="bg-soft text-slate-900">
-  <main class="max-w-2xl mx-auto px-4 py-10 space-y-6">
-    <section class="card bg-white rounded-3xl p-7 sm:p-10 border border-indigo-100">
-      <p class="text-sm font-extrabold text-indigo-600">CARD NEWS 01</p>
-      <h1 class="mt-3 text-3xl sm:text-4xl font-black leading-tight">부모와 아이가 함께 준비하는<br>AI 시대</h1>
-      <p class="mt-4 text-slate-600 leading-7">부모 인식 데이터 3가지로 보는, 우리 아이 AI 학습의 방향</p>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <div class="tag">CARD NEWS 01</div>
+      <h1>부모와 아이가 함께 준비하는 AI 시대</h1>
+      <p>부모 인식 데이터 3가지로, 우리 아이 AI 학습의 방향을 정리했습니다.</p>
     </section>
 
-    <section class="card bg-gradient-to-br from-violet-600 to-indigo-600 text-white rounded-3xl p-7 sm:p-10">
-      <p class="text-sm font-extrabold text-violet-100">CARD NEWS 02</p>
-      <h2 class="mt-3 text-2xl sm:text-3xl font-black">✨ Focus on the Future</h2>
-      <p class="mt-5 text-6xl sm:text-7xl font-black tracking-tight">67%</p>
-      <p class="mt-4 text-lg sm:text-xl font-bold">부모의 67%는 AI 학습이<br>아이의 미래 준비에 도움이 된다고 기대합니다.</p>
-      <p class="mt-5 text-violet-100 text-sm">“AI를 배우는 경험 자체가 미래 역량으로 연결된다”는 인식</p>
+    <section class="card">
+      <div class="tag">CARD NEWS 02</div>
+      <h2>미래를 준비하는 AI 학습의 힘</h2>
+      <div class="num">67%</div>
+      <p>부모의 67%는 AI를 배우는 경험이 아이의 미래 준비에 도움이 된다고 답했습니다.</p>
     </section>
 
-    <section class="card bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-3xl p-7 sm:p-10">
-      <p class="text-sm font-extrabold text-emerald-100">CARD NEWS 03</p>
-      <h2 class="mt-3 text-2xl sm:text-3xl font-black">🤝 Learn Together</h2>
-      <p class="mt-5 text-6xl sm:text-7xl font-black tracking-tight">70%</p>
-      <p class="mt-4 text-lg sm:text-xl font-bold">부모의 70%는 디지털 안전 도구를<br>아이와 함께 사용할 때,
-        온라인 안전 대화를 더 자신 있게 시작한다고 말합니다.</p>
-      <p class="mt-5 text-emerald-100 text-sm">함께 사용해보는 경험이 대화의 문을 엽니다.</p>
+    <section class="card">
+      <div class="tag">CARD NEWS 03</div>
+      <h2>함께 사용할 때 더 쉬워지는 안전 대화</h2>
+      <div class="num">70%</div>
+      <p>부모의 70%는 디지털 안전 도구를 아이와 함께 쓸 때, 온라인 안전 대화를 더 자신 있게 시작할 수 있다고 말합니다.</p>
     </section>
 
-    <section class="card bg-gradient-to-br from-amber-400 to-orange-500 text-white rounded-3xl p-7 sm:p-10">
-      <p class="text-sm font-extrabold text-amber-100">CARD NEWS 04</p>
-      <h2 class="mt-3 text-2xl sm:text-3xl font-black">💡 Stay Curious</h2>
-      <p class="mt-5 text-6xl sm:text-7xl font-black tracking-tight">69%</p>
-      <p class="mt-4 text-lg sm:text-xl font-bold">부모의 69%는 아이를 충분히 지도할 수 있다고 느끼지만,
-        동시에 아이가 디지털 환경의 ‘실전 전문가’임을 인정합니다.</p>
-      <p class="mt-5 text-amber-100 text-sm">결론: 부모와 아이 모두 함께 배우고 성장하려는 욕구가 커지고 있습니다.</p>
+    <section class="card">
+      <div class="tag">CARD NEWS 04</div>
+      <h2>부모도 알고, 아이도 아는 함께 배우는 디지털</h2>
+      <div class="num">69%</div>
+      <p>부모의 69%는 아이를 지도할 수 있다고 느끼면서도, 아이를 디지털 환경의 실전 전문가로 인정합니다. 결국 답은 함께 배우는 것입니다.</p>
     </section>
 
-    <section class="card bg-white rounded-3xl p-7 sm:p-10 border border-slate-200">
-      <p class="text-sm font-extrabold text-slate-500">CARD NEWS 05</p>
-      <h2 class="mt-3 text-2xl sm:text-3xl font-black">한 줄 정리</h2>
-      <ul class="mt-5 space-y-3 text-slate-700 leading-7">
-        <li>• AI 교육은 ‘기술 학습’을 넘어 미래 준비로 인식되고 있습니다.</li>
-        <li>• 디지털 안전은 통제가 아니라 대화와 동행에서 시작됩니다.</li>
-        <li>• 정답은 부모 vs 아이가 아니라, 부모 + 아이의 공동 학습입니다.</li>
-      </ul>
-      <p class="mt-6 text-sm text-slate-500">Source data provided by user prompt</p>
+    <section class="card">
+      <div class="tag">CARD NEWS 05</div>
+      <h2>한 줄 정리</h2>
+      <p>AI 교육은 미래를 준비하는 힘입니다.<br>디지털 안전은 통제가 아니라 대화에서 시작됩니다.<br>부모와 아이가 함께 배울 때 변화가 가장 큽니다.</p>
+    </section>
+
+    <section class="download">
+      PNG 카드셋 다운로드:<br>
+      <a href="./png/card-01.png">card-01.png</a> ·
+      <a href="./png/card-02.png">card-02.png</a> ·
+      <a href="./png/card-03.png">card-03.png</a> ·
+      <a href="./png/card-04.png">card-04.png</a> ·
+      <a href="./png/card-05.png">card-05.png</a>
     </section>
   </main>
 </body>
